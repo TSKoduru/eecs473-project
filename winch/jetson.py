@@ -1,18 +1,8 @@
 import serial
-import time
 
-SERIAL_PORT = 'COM4'
-BAUD_RATE = 115200
+# Change this to whatever port the NUCLEO is connected to
+ser = serial.Serial('COM9', 115200, timeout=1)
 
-def send_message(message):
-    try:
-        with serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1) as ser:
-            ser.write(message.encode('utf-8'))
-            print(f"Sent: {message}")
-    except serial.SerialException as e:
-        print(f"Error: {e}")
-
-# Optional: Quick test
-if __name__ == "__main__":
-    send_message("Hello world!")
-    time.sleep(1)
+while True:
+    cmd = input("Enter (BLINK or DBLINK): ")
+    ser.write((cmd + '\n').encode())
