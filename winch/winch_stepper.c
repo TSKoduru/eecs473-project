@@ -41,8 +41,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 
-COM_InitTypeDef BspCOMInit;
-
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
@@ -72,21 +70,21 @@ void microDelay (uint16_t delay)
   while (__HAL_TIM_GET_COUNTER(&htim1) < delay);
 }
 
-void step (int steps, uint8_t direction, uint16_t delay)
+void step(int steps, uint8_t direction, uint16_t delay)
 {
-  int x;
-  if (direction == 0)
-    HAL_GPIO_WritePin(DIR_PORT, DIR_PIN, GPIO_PIN_SET);
-  else
-    HAL_GPIO_WritePin(DIR_PORT, DIR_PIN, GPIO_PIN_RESET);
-  for(x=0; x<steps; x=x+1)
-  {
-    HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_SET);
-    microDelay(delay);
-    HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_RESET);
-    microDelay(delay);
-  }
+    // Set direction pin
+    HAL_GPIO_WritePin(DIR_PORT, DIR_PIN, (direction == 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+
+    // Perform stepping
+    for (int i = 0; i < steps; i++)
+    {
+        HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_SET);
+        microDelay(delay);
+        HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_RESET);
+        microDelay(delay);
+    }
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -125,37 +123,45 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim1);
+
+  // === User settings ===
+  // Calculate movement parameters:
+  //
+  // total_steps = speed (steps/sec) × duration (sec)
+  //   This gives the total number of steps to move in the given time.
+  //
+  // step_delay_us = 1,000,000 µs (1 second) divided by (2 × speed)
+  //   This gives the delay per signal edge in microseconds.
+  //   Each step consists of two edges: a HIGH pulse and a LOW pulse.
+  //
+  // Therefore, time per full step = 2 × step_delay_us (µs)
+  //
+  // Total movement time = total_steps × time per step (in µs)
+  //   This should approximately equal duration × 1,000,000 µs.
+  //
+  // Example:
+  //   For speed = 500 steps/sec and duration = 5 sec:
+  //     total_steps = 500 × 5 = 2500 steps
+  //     step_delay_us = 1,000,000 / (2 × 500) = 1000 µs (1 ms per edge)
+  //     Time per step = 2 × 1000 µs = 2000 µs = 2 ms
+  //     Total time = 2500 × 2 ms = 5000 ms = 5 seconds
+
+    int speed = 500;         // steps per second (Careful about setting too high)
+    int duration = 5;        // duration in seconds
+    int total_steps = speed * duration;
+    int step_delay_us = 1000000 / (2 * speed);  // delay per edge
+
   /* USER CODE END 2 */
-
-  /* Initialize led */
-  BSP_LED_Init(LED_GREEN);
-
-  /* Initialize USER push-button, will be used to trigger an interrupt each time it's pressed.*/
-  BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI);
-
-  /* Initialize COM1 port (115200, 8 bits (7-bit data + 1 stop bit), no parity */
-  BspCOMInit.BaudRate   = 115200;
-  BspCOMInit.WordLength = COM_WORDLENGTH_8B;
-  BspCOMInit.StopBits   = COM_STOPBITS_1;
-  BspCOMInit.Parity     = COM_PARITY_NONE;
-  BspCOMInit.HwFlowCtl  = COM_HWCONTROL_NONE;
-  if (BSP_COM_Init(COM1, &BspCOMInit) != BSP_ERROR_NONE)
-  {
-    Error_Handler();
-  }
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
     {
-      int y;
-      for(y=0; y<8; y=y+1) // 8 times
-      {
-        step(25, 0, 800); // 25 steps (45 degrees) CCV
-        HAL_Delay(500);
-      }
-      step(800, 1, 500); // 800 steps (4 revolutions ) CV
-      HAL_Delay(1000);
+	  step(total_steps, 0, step_delay_us);  // Move forward
+	  HAL_Delay(1000);                      // Optional pause
+	  step(total_steps, 1, step_delay_us);  // Move back
+	  HAL_Delay(1000);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -313,15 +319,21 @@ static void MX_TIM1_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  /* USER CODE BEGIN MX_GPIO_Init_1 */
-
-  /* USER CODE END MX_GPIO_Init_1 */
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_2, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_2|LED_GREEN_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : USER_BUTTON_Pin */
+  GPIO_InitStruct.Pin = USER_BUTTON_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USER_BUTTON_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA1 PA2 */
   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2;
@@ -330,9 +342,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /*Configure GPIO pin : LED_GREEN_Pin */
+  GPIO_InitStruct.Pin = LED_GREEN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
 
-  /* USER CODE END MX_GPIO_Init_2 */
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
