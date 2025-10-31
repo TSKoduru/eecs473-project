@@ -146,9 +146,8 @@ int main(void)
   //     Time per step = 2 × 1000 µs = 2000 µs = 2 ms
   //     Total time = 2500 × 2 ms = 5000 ms = 5 seconds
 
-    int speed = 500;         // steps per second (Careful about setting too high)
-    int duration = 5;        // duration in seconds
-    int total_steps = speed * duration;
+    int speed = 950;         // steps per second (Careful about setting too high)
+    int total_steps = 10000;
     int step_delay_us = 1000000 / (2 * speed);  // delay per edge
 
   /* USER CODE END 2 */

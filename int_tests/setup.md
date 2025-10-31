@@ -1,0 +1,2 @@
+- winch setup
+- enable USART1, Async, enable global interrupt
