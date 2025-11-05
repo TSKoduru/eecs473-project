@@ -55,15 +55,19 @@ TIM_HandleTypeDef htim1;
 uint8_t rx_buffer[RX_BUFFER_SIZE];
 uint8_t rx_index = 0;
 
-uint16_t max_speed = 950;   // steps per second (Careful about setting too high)
-uint16_t max_speed_delay_us = 526;  // delay per edge
-uint16_t min_speed = 300;
-uint16_t min_speed_delay_us = 1666;
-int accel_steps = 2000;
-int decel_steps = 2000;
-uint16_t global_delay = 1666;
+// ESC PWM range
+uint16_t neutral_pwm_us     = 1500;
+uint16_t forward_min_pwm_us = 1550;
+uint16_t forward_max_pwm_us = 2000;
+uint16_t reverse_min_pwm_us = 1450;
+uint16_t reverse_max_pwm_us = 1000;
+
+uint16_t global_pwm_us = 1500;  // current PWM signal (neutral)
+
+int accel_steps = 100;
+int decel_steps = 100;
 uint8_t stopped = 1;
-uint8_t direction = 0;
+uint8_t direction = 0; // TODO: FIGURE OUT IF THIS IS CW OR CCW
 uint8_t should_decel = 0;
 uint8_t should_accel = 0;
 uint8_t dropping = 0;
@@ -86,74 +90,53 @@ static void MX_LPUART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void microDelay(uint16_t delay) {
-	__HAL_TIM_SET_COUNTER(&htim1, 0);
-	while (__HAL_TIM_GET_COUNTER(&htim1) < delay)
-		;
+/* === Brushless ESC Control === */
+void setThrottle_us(uint16_t us)
+{
+    if (us < 1000) us = 1000;
+    if (us > 2000) us = 2000;
+    __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, us);
 }
 
-void single_step(uint16_t delay_us) {
-	HAL_GPIO_WritePin(DIR_PORT, DIR_PIN, (direction == 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_SET);
-	microDelay(delay_us);
-	HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_RESET);
-	microDelay(delay_us);
+/* Stop motor (neutral) */
+void stop_motor(void)
+{
+    setThrottle_us(1500);
 }
 
-/**
- * @brief Accelerate from a starting delay to a target (max speed).
- * @param direction 0 = forward, 1 = reverse
- * @param start_delay_us Delay at starting speed (large value = slow)
- * @param target_delay_us Delay at max speed (small value = fast)
- * @param accel_steps How many steps over which to accelerate
- */
-void accelerate_to_max(uint8_t direction, uint16_t start_delay_us,
-		uint16_t target_delay_us, int accel_steps) {
-	HAL_GPIO_WritePin(DIR_PORT, DIR_PIN,
-			(direction == 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+/* Accelerate smoothly toward a target throttle (depends on direction) */
+void accelerate_to_max(uint8_t direction, uint16_t start_us,
+                       uint16_t target_us, int accel_steps)
+{
+    float pulse = start_us;
+    float step_change = ((float)target_us - (float)start_us) / accel_steps;
 
-	float delay = start_delay_us;
-	float step_change = ((float) start_delay_us - (float) target_delay_us)
-			/ accel_steps;
-
-	for (int i = 0; i < accel_steps; i++) {
-		HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_SET);
-		microDelay((uint16_t) delay);
-		HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_RESET);
-		microDelay((uint16_t) delay);
-		delay -= step_change; // get faster
-	}
-
-	stopped = 0;
-	global_delay = delay;
+    stopped = 0;
+    for (int i = 0; i < accel_steps; i++) {
+        if (stopped) return;  // Abort if stop command issued
+        setThrottle_us((uint16_t)pulse);
+        HAL_Delay(20); // ~50 Hz update rate
+        pulse += step_change;
+    }
+    global_delay = (uint16_t)pulse;
 }
 
-/**
- * @brief Decelerate from a current fast delay to a slower min speed delay.
- * @param direction 0 = forward, 1 = reverse
- * @param start_delay_us Delay at current speed (small value)
- * @param target_delay_us Delay at min speed (larger value)
- * @param decel_steps Number of steps over which to decelerate
- */
-void decelerate_to_min(uint8_t direction, uint16_t start_delay_us,
-		uint16_t target_delay_us, int decel_steps) {
-	HAL_GPIO_WritePin(DIR_PORT, DIR_PIN,
-			(direction == 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+/* Decelerate smoothly toward min speed (depends on direction) */
+void decelerate_to_min(uint8_t direction, uint16_t start_us,
+                       uint16_t target_us, int decel_steps)
+{
+    float pulse = start_us;
+    float step_change = ((float)target_us - (float)start_us) / decel_steps;
 
-	float delay = start_delay_us;
-	float step_change = ((float) target_delay_us - (float) start_delay_us)
-			/ decel_steps;
-
-	for (int i = 0; i < decel_steps; i++) {
-		HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_SET);
-		microDelay((uint16_t) delay);
-		HAL_GPIO_WritePin(STEP_PORT, STEP_PIN, GPIO_PIN_RESET);
-		microDelay((uint16_t) delay);
-		delay += step_change; // get slower
-	}
-
-	global_delay = delay;
+    for (int i = 0; i < decel_steps; i++) {
+        if (stopped) return;
+        setThrottle_us((uint16_t)pulse);
+        HAL_Delay(20);
+        pulse += step_change;
+    }
+    global_delay = (uint16_t)pulse;
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -193,58 +176,49 @@ int main(void)
   MX_USART1_UART_Init();
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	// HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Start PWM on PA8 (TIM1_CH1)
-	//  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1500);
-	//  HAL_Delay(2000);  // Wait 2s for ESC to arm
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Start PWM on PA8 (TIM1_CH1)
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1500);
+	HAL_Delay(2000);  // Wait 2s for ESC to arm
 	HAL_TIM_Base_Start(&htim1);
 	HAL_UART_Receive_IT(&huart1, &ch, 1);
-	HAL_UART_Receive_IT(&hlpuart1, &xb, 2);
+	HAL_UART_Receive_IT(&hlpuart1, xb, 2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-//	  for (int pulse = 1500; pulse <= 2000; pulse += 5) {
-//		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulse);
-//		  HAL_Delay(20);
-//	  }
-//	  HAL_Delay(1000);  // Hold at full speed
-//
-//	  for (int pulse = 2000; pulse >= 1500; pulse -= 5) {
-//		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulse);
-//		  HAL_Delay(20);
-//	  }
-//	  HAL_Delay(1000);
-//
-//	  for (int pulse = 1500; pulse >= 1000; pulse -= 5) {
-//		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulse);
-//		  HAL_Delay(20);
-//	  }
-//	  HAL_Delay(1000);
-//
-//	  for (int pulse = 1000; pulse <= 1500; pulse += 5) {
-//		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulse);
-//		  HAL_Delay(20);
-//	  }
-//	  HAL_Delay(2000);
 		if (dropping) {
-			HAL_Delay(2000);
-			dropping = 0;
-			should_accel = 1;
+		    HAL_Delay(2000);
+		    dropping = 0;
+		    should_accel = 1;
 		}
+
 		if (should_accel) {
-			accelerate_to_max(direction, min_speed_delay_us, max_speed_delay_us,
-								accel_steps);
-			should_accel = 0;
+		    if (direction == 0) {
+		        // Going forward
+		        accelerate_to_max(direction, forward_min_pwm_us, forward_max_pwm_us, accel_steps);
+		    } else {
+		        // Going reverse
+		        accelerate_to_max(direction, reverse_min_pwm_us, reverse_max_pwm_us, accel_steps);
+		    }
+		    should_accel = 0;
 		}
+
 		if (should_decel) {
-			decelerate_to_min(direction, max_speed_delay_us, min_speed_delay_us,
-								decel_steps);
-			should_decel = 0;
+		    if (direction == 0) {
+		        decelerate_to_min(direction, forward_max_pwm_us, forward_min_pwm_us, decel_steps);
+		    } else {
+		        decelerate_to_min(direction, reverse_max_pwm_us, reverse_min_pwm_us, decel_steps);
+		    }
+		    should_decel = 0;
 		}
-		if (!stopped && global_delay > 0) {
-			single_step(global_delay);
+
+		if (stopped) {
+		    stop_motor();
+		} else {
+		    HAL_Delay(20);
 		}
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -556,6 +530,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PA3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pin : LED_GREEN_Pin */
   GPIO_InitStruct.Pin = LED_GREEN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -571,30 +551,42 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if (huart->Instance == USART1) {
+
 		if (ch == 'G') {
 			should_accel = 1;
 //			global_delay = max_speed_delay_us;
 //			stopped = 0;
 		} else if (ch == 'S') {
+			stopped = 1;
 			direction = !direction;
-						stopped = 1;
 		}
-
 		// Re-enable interrupt for next character
 		HAL_UART_Receive_IT(&huart1, &ch, 1);
 	} else if (huart->Instance == LPUART1) {
-		uint16_t dist = xb[0] << 8 | xb[1];
-		if (dist < 500 && !stopped) {
-			direction = !direction;
-			stopped = 1;
-			dropping = 1;
+		// ASSUME FIRST BIT IS 0 for bottom, 1 for top sensor
+		uint16_t dist = (xb[0] << 8 | xb[1]) & (0b01111111);
+		uint8_t sensor = xb[0] >> 3;
+		if (sensor == direction) {
+			if (dist < 500 && !stopped) {
+				direction = !direction;
+				stopped = 1;
+				dropping = !direction; // if direction == 0, then we are dropping, otherwise we are back at the top
+			}
+			else if (dist < 1500 && global_delay != min_speed_delay_us) {
+				should_decel = 1;
+			}
 		}
-		else if (dist < 1500 && global_delay != min_speed_delay_us) { // TODO: check if direction is the right direction
-			should_decel = 1;
-		}
-
-		HAL_UART_Receive_IT(&hlpuart1, &xb, 2);
+		HAL_UART_Receive_IT(&hlpuart1, xb, 2);
 	}
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(GPIO_Pin == GPIO_PIN_3)
+  {
+    stopped = 1;
+    direction = !direction;
+  }
 }
 /* USER CODE END 4 */
 

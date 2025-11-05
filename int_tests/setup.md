@@ -2,3 +2,4 @@
 - enable USART1, Async, enable global interrupt
 - enable LPUART1, Async, enable global interrupt, baud rate 9600
 - PC0/PC1 LPUART
+- PA3 as EXTI
