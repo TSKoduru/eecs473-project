@@ -57,9 +57,9 @@ uint8_t rx_index = 0;
 
 // ESC PWM range
 uint16_t neutral_pwm_us     = 1500;
-uint16_t forward_min_pwm_us = 1550;
+uint16_t forward_min_pwm_us = 1600;
 uint16_t forward_max_pwm_us = 2000;
-uint16_t reverse_min_pwm_us = 1450;
+uint16_t reverse_min_pwm_us = 1400;
 uint16_t reverse_max_pwm_us = 1000;
 
 uint16_t global_pwm_us = 1500;  // current PWM signal (neutral)
@@ -101,6 +101,7 @@ void setThrottle_us(uint16_t us)
 /* Stop motor (neutral) */
 void stop_motor(void)
 {
+	stopped = 1;
     setThrottle_us(1500);
 }
 
@@ -118,7 +119,7 @@ void accelerate_to_max(uint8_t direction, uint16_t start_us,
         HAL_Delay(20); // ~50 Hz update rate
         pulse += step_change;
     }
-    global_delay = (uint16_t)pulse;
+    global_pwm_us = (uint16_t)pulse;
 }
 
 /* Decelerate smoothly toward min speed (depends on direction) */
@@ -134,7 +135,7 @@ void decelerate_to_min(uint8_t direction, uint16_t start_us,
         HAL_Delay(20);
         pulse += step_change;
     }
-    global_delay = (uint16_t)pulse;
+    global_pwm_us = (uint16_t)pulse;
 }
 
 /* USER CODE END 0 */
@@ -213,11 +214,7 @@ int main(void)
 		    should_decel = 0;
 		}
 
-		if (stopped) {
-		    stop_motor();
-		} else {
-		    HAL_Delay(20);
-		}
+
 
     /* USER CODE END WHILE */
 
@@ -557,22 +554,22 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 //			global_delay = max_speed_delay_us;
 //			stopped = 0;
 		} else if (ch == 'S') {
-			stopped = 1;
+			stop_motor();
 			direction = !direction;
 		}
 		// Re-enable interrupt for next character
 		HAL_UART_Receive_IT(&huart1, &ch, 1);
 	} else if (huart->Instance == LPUART1) {
 		// ASSUME FIRST BIT IS 0 for bottom, 1 for top sensor
-		uint16_t dist = (xb[0] << 8 | xb[1]) & (0b01111111);
-		uint8_t sensor = xb[0] >> 3;
+		uint16_t dist = (xb[0] << 8 | xb[1]) & (0x7FFF);
+		uint8_t sensor = xb[0] >> 7;
 		if (sensor == direction) {
 			if (dist < 500 && !stopped) {
-				direction = !direction;
-				stopped = 1;
+				stop_motor();
 				dropping = !direction; // if direction == 0, then we are dropping, otherwise we are back at the top
+				direction = !direction;
 			}
-			else if (dist < 1500 && global_delay != min_speed_delay_us) {
+			else if (dist < 1500 && global_pwm_us != forward_min_pwm_us && global_pwm_us != reverse_min_pwm_us) {
 				should_decel = 1;
 			}
 		}
@@ -584,7 +581,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if(GPIO_Pin == GPIO_PIN_3)
   {
-    stopped = 1;
+	  stop_motor();
     direction = !direction;
   }
 }
