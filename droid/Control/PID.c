@@ -40,9 +40,11 @@
 #define MAX_FORCE 	2.0f
 #define MAX_DUTY	8.0f
 #define MIN_DUTY	5.0f
-#define KP			1.0f
+#define KP			2.0f
 #define KI			0.0f
 #define KD			0.0f
+#define ACCEL_DEADZONE  0.1f  // m/s² - tune this value
+#define GYRO_DEADZONE	0.05f
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -57,8 +59,10 @@ UART_HandleTypeDef hlpuart1;
 
 SPI_HandleTypeDef hspi1;
 
-/* USER CODE BEGIN PV */
+TIM_HandleTypeDef htim5;
 
+/* USER CODE BEGIN PV */
+const int max_CCR = 80000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,12 +70,29 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_LPUART1_UART_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
+float applyDeadzone(float val, float deadzone) {
+    if (fabsf(val) < deadzone) {
+        return 0.0f;
+    }
+    // Optional: subtract deadzone to avoid step discontinuity
+    return val - copysignf(deadzone, val);
+}
+
 void worldToDroid(float *Fx_d, float *Fy_d, float F_w, float theta_w, float yaw) {
 	*Fx_d = F_w * cosf(yaw - theta_w);
 	*Fy_d = -F_w * sinf(yaw - theta_w);
-	*Fx_d = MIN(*Fx_d * sqrtf(2.0f) / 2.0f, MAX_FORCE / 2.0f);
-	*Fy_d = MIN(*Fy_d * sqrtf(2.0f) / 2.0f, MAX_FORCE / 2.0f);
+	if (*Fx_d > 0) {
+		*Fx_d = MIN(*Fx_d * sqrtf(2.0f) / 2.0f, MAX_FORCE / 2.0f);
+	} else {
+		*Fx_d = MAX(*Fx_d * sqrtf(2.0f) / 2.0f, MAX_FORCE / -2.0f);
+	}
+	if (*Fy_d > 0) {
+		*Fy_d = MIN(*Fy_d * sqrtf(2.0f) / 2.0f, MAX_FORCE / 2.0f);
+	} else {
+		*Fy_d = MAX(*Fy_d * sqrtf(2.0f) / 2.0f, MAX_FORCE / -2.0f);
+	}
 }
 
 void assignMotorValues(float Fx_d, float Fy_d, float *m1, float *m2, float *m3, float *m4) {
@@ -101,19 +122,13 @@ void assignMotorValues(float Fx_d, float Fy_d, float *m1, float *m2, float *m3, 
 	// Torque balancing: ensure diagonal pairs produce equal torque
 	float T = *m1 + *m4 - *m2 - *m3;
 	if (T > 0) {
-		// Too much CCW torque, increase m2 or m3
-		if (*m2 < *m3) {
-			*m2 += fabsf(T) / 2.0f;
-		} else {
-			*m3 += fabsf(T) / 2.0f;
-		}
+		// Too much CCW torque, increase m2 and m3
+		*m2 += fabsf(T) / 2.0f;
+		*m3 += fabsf(T) / 2.0f;
 	} else if (T < 0) {
-		// Too much CW torque, increase m1 or m4
-		if (*m1 < *m4) {
-			*m1 += fabsf(T) / 2.0f;
-		} else {
-			*m4 += fabsf(T) / 2.0f;
-		}
+		// Too much CW torque, increase m1 and m4
+		*m1 += fabsf(T) / 2.0f;
+		*m4 += fabsf(T) / 2.0f;
 	}
 
 	// Convert force to duty cycle
@@ -128,6 +143,13 @@ void assignMotorValues(float Fx_d, float Fy_d, float *m1, float *m2, float *m3, 
 	*m2 = MAX(MIN_DUTY, MIN(*m2, MAX_DUTY));
 	*m3 = MAX(MIN_DUTY, MIN(*m3, MAX_DUTY));
 	*m4 = MAX(MIN_DUTY, MIN(*m4, MAX_DUTY));
+}
+
+void TIM_SetPWM(float m1, float m2, float m3, float m4) {
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1, max_CCR * 0.01 * m1);
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_2, max_CCR * 0.01 * m2);
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_3, max_CCR * 0.01 * m3);
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_4, max_CCR * 0.01 * m4);
 }
 /* USER CODE END PFP */
 
@@ -167,7 +189,15 @@ int main(void)
   MX_GPIO_Init();
   MX_LPUART1_UART_Init();
   MX_SPI1_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
+  //  Arm the ESC (first send the low signal then the high signal)
+  TIM_SetPWM(5, 5, 5, 5);
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
+  HAL_Delay(3000);
   IMU_INIT(&hspi1);
   IMU_SETUP_FOR_LOGGING();
   IMU_ENABLE_ALL();
@@ -204,6 +234,7 @@ int main(void)
   float Fx_d, Fy_d;
   float m1, m2, m3, m4;
 
+  uint32_t then = HAL_GetTick();
   uint32_t last = HAL_GetTick();
   /* USER CODE END 2 */
 
@@ -211,7 +242,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for(int i = 0; i < 1000; i++) {
+//	  while ( rpy_p.x < 0.05) {
+	  for (int i = 0; i < 100; i++) {
 		  uint32_t now = HAL_GetTick();
 		  float dt = (now - last) / 1000.0f;
 		  last = now;
@@ -222,6 +254,14 @@ int main(void)
 		  rpy_v.x -= 0.00263f;
 		  rpy_v.y += 0.001145f;
 		  rpy_v.z -= 0.000884f;
+
+		  rpy_v.x = applyDeadzone(rpy_v.x, GYRO_DEADZONE);
+		  rpy_v.y = applyDeadzone(rpy_v.y, GYRO_DEADZONE);
+		  rpy_v.z = applyDeadzone(rpy_v.z, GYRO_DEADZONE);
+
+		  xyz_a.x = applyDeadzone(xyz_a.x, ACCEL_DEADZONE);
+		  xyz_a.y = applyDeadzone(xyz_a.y, ACCEL_DEADZONE);
+		  xyz_a.z = applyDeadzone(xyz_a.z, ACCEL_DEADZONE);
 
 		  cr = cosf(rpy_p.x); sr = sinf(rpy_p.x);
 		  cp = cosf(rpy_p.y); sp = sinf(rpy_p.y);
@@ -234,6 +274,11 @@ int main(void)
 		  aX = cy * cp * xyz_a.x + (cy * sp * sr - sy * cr) * xyz_a.y + (cy * sp * cr + sy * sr) * xyz_a.z;
 		  aY = sy * cp * xyz_a.x + (sy * sp * sr + cy * cr) * xyz_a.y + (sy * sp * cr - cy * sr) * xyz_a.z;
 		  aZ = -sp * xyz_a.x + (cp * sr) * xyz_a.y + (cp * cr) * xyz_a.z;
+
+//		  aX -= xyz_ground.x;
+//		  aY -= xyz_ground.y;
+//		  aZ -= xyz_ground.z;
+
 
 		  xyz_v.x += aX * dt;
 		  xyz_v.y += aY * dt;
@@ -252,12 +297,12 @@ int main(void)
 		  rpy_p.y = alpha * rpy_p.y + (1.0f - alpha) * accel_pitch;
 
 		  // Accumulate error for integral term (assuming target angle is 0)
-		  error_x += rpy_p.x * dt;
-		  error_y += rpy_p.y * dt;
+		  error_x += xyz_p.x * dt;
+		  error_y += xyz_p.y * dt;
 
 		  // PID control to calculate world-frame forces
-		  float Fx_w = KP * rpy_p.x + KD * rpy_v.x + KI * error_x;
-		  float Fy_w = KP * rpy_p.y + KD * rpy_v.y + KI * error_y;
+		  float Fx_w = -1.0*(KP * xyz_p.x + KD * xyz_v.x + KI * error_x) / 100.0;
+		  float Fy_w = -1.0*(KP * xyz_p.y + KD * xyz_v.y + KI * error_y) / 100.0;
 
 		  float F_w = sqrtf(Fx_w * Fx_w + Fy_w * Fy_w);
 		  float theta = atan2f(Fy_w, Fx_w);
@@ -265,14 +310,17 @@ int main(void)
 		  worldToDroid(&Fx_d, &Fy_d, F_w, theta, rpy_p.z);
 		  assignMotorValues(Fx_d, Fy_d, &m1, &m2, &m3, &m4);
 
-		  // TODO: Actually set the motor PWM values here
-		  // Example: TIM_SetPWM(m1, m2, m3, m4);
+		  TIM_SetPWM(m1, m2, m3, m4);
 
 		  HAL_Delay(5);
 	  }
 	  char msg[100];
-	  snprintf(msg, sizeof(msg), "%.3f,%.3f,%.3f\n\r", xyz_p.x, xyz_p.y, xyz_p.z);
+	  snprintf(msg, sizeof(msg), "%.3f,%.3f,%.3f,%.3f\n\r", xyz_p.x, xyz_p.y, rpy_p.x, rpy_p.y);
+//	  snprintf(msg, sizeof(msg), "%d\n\r", (then-last));
 	  HAL_UART_Transmit(&hlpuart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+//	  snprintf(msg, sizeof(msg), "%.3f,%.3f,%.3f,%.3f\n\r", m1, m2, m3, m4);
+//	  HAL_UART_Transmit(&hlpuart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+//	  TIM_SetPWM(m1, m2, m3, m4);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -430,6 +478,77 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief TIM5 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM5_Init(void)
+{
+
+  /* USER CODE BEGIN TIM5_Init 0 */
+
+  /* USER CODE END TIM5_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM5_Init 1 */
+
+  /* USER CODE END TIM5_Init 1 */
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 0;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 80000;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM5_Init 2 */
+
+  /* USER CODE END TIM5_Init 2 */
+  HAL_TIM_MspPostInit(&htim5);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -446,10 +565,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PC6 PC7 */
-  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : PC6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PC7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -478,7 +607,6 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
 #ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
