@@ -1,0 +1,6 @@
+../Core/Src/imu_fusion.c:11:13:normalizeQ	2
+../Core/Src/imu_fusion.c:17:19:qMul	1
+../Core/Src/imu_fusion.c:26:16:Quaternion_Rotate	1
+../Core/Src/imu_fusion.c:35:6:IMU_Fusion_Init	1
+../Core/Src/imu_fusion.c:40:6:IMU_Update	5
+../Core/Src/imu_fusion.c:101:6:Quaternion_ToEuler	1
