@@ -73,7 +73,7 @@ uint8_t should_accel = 0;
 uint8_t dropping = 0;
 
 uint8_t ch;
-uint8_t xb[2];
+uint8_t xb[3];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -182,7 +182,7 @@ int main(void)
 	HAL_Delay(2000);  // Wait 2s for ESC to arm
 	HAL_TIM_Base_Start(&htim1);
 	HAL_UART_Receive_IT(&huart1, &ch, 1);
-	HAL_UART_Receive_IT(&hlpuart1, xb, 2);
+	HAL_UART_Receive_IT(&hlpuart1, xb, 3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -560,10 +560,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 		// Re-enable interrupt for next character
 		HAL_UART_Receive_IT(&huart1, &ch, 1);
 	} else if (huart->Instance == LPUART1) {
-		// ASSUME FIRST BIT IS 0 for bottom, 1 for top sensor
-		uint16_t dist = (xb[0] << 8 | xb[1]) & (0x7FFF);
-		uint8_t sensor = xb[0] >> 7;
-		if (sensor == direction) {
+		char sensor = xb[0];
+		if (sensor != 'A' && sensor != 'B') {
+			HAL_UART_Receive_IT(&hlpuart1, xb, 3);
+			return;
+		}
+		// SECOND TWO BYTES ARE DISTANCE
+		uint16_t dist = (xb[1] << 8 | xb[2]);
+		if ((direction == 0 && sensor == 'A') || (direction == 1 && sensor == 'B')) {
 			if (dist < 500 && !stopped) {
 				stop_motor();
 				dropping = !direction; // if direction == 0, then we are dropping, otherwise we are back at the top
@@ -573,7 +577,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 				should_decel = 1;
 			}
 		}
-		HAL_UART_Receive_IT(&hlpuart1, xb, 2);
+		HAL_UART_Receive_IT(&hlpuart1, xb, 3);
 	}
 }
 
