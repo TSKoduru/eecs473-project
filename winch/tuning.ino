@@ -27,16 +27,6 @@ void setup() {
   delay(2000);     // Allow ESC to arm
 
   esc.writeMicroseconds(PWM_NEUTRAL);
-
-  Serial.println("\n=== Winch PWM Tuning Tool ===");
-  Serial.println("Commands:");
-  Serial.println("  1: freefall");
-  Serial.println("  2: accel up");
-  Serial.println("  3: decel up");
-  Serial.println("  4: accel down");
-  Serial.println("  5: decel down");
-  Serial.println("  6: hold");
-  Serial.println("================================\n");
 }
 
 void loop() {
@@ -56,28 +46,28 @@ void loop() {
 void handleCommand(String cmd) {
   cmd.trim();
   if (cmd == "1") {
-    esc.writeMicroseconds(PWM_ACCEL_DOWN);
-    Serial.println("→ Freefall (PWM_ACCEL_DOWN)");
+    esc.writeMicroseconds(1500);
+    Serial.println("→ 1500");
   }
     else if (cmd == "2") {
-        esc.writeMicroseconds(PWM_ACCEL_UP);
-        Serial.println("→ Accelerate Up (PWM_ACCEL_UP)");
+        esc.writeMicroseconds(1510);
+        Serial.println("→ 1510");
     }
     else if (cmd == "3") {
-        esc.writeMicroseconds(PWM_DECEL_UP);
-        Serial.println("→ Decelerate Up (PWM_DECEL_UP)");
+        esc.writeMicroseconds(1520);
+        Serial.println("→ 1520");
     }
     else if (cmd == "4") {
-        esc.writeMicroseconds(PWM_ACCEL_DOWN);
-        Serial.println("→ Accelerate Down (PWM_ACCEL_DOWN)");
+        esc.writeMicroseconds(1530);
+        Serial.println("→ 1530");
     }
     else if (cmd == "5") {
-        esc.writeMicroseconds(PWM_DECEL_DOWN);
-        Serial.println("→ Decelerate Down (PWM_DECEL_DOWN)");
+        esc.writeMicroseconds(1540);
+        Serial.println("→ 1540");
     }
     else if (cmd == "6") {
-        esc.writeMicroseconds(PWM_HOLD);
-        Serial.println("→ Hold (PWM_HOLD)");
+        esc.writeMicroseconds(1550);
+        Serial.println("→ 1550");
     }
     else {
         Serial.println("Unknown command. Please enter a number between 1 and 6.");
