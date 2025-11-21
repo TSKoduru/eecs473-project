@@ -1,0 +1,15 @@
+../Core/Src/main.c:94:6:setThrottle_us	3
+../Core/Src/main.c:102:6:stop_motor	1
+../Core/Src/main.c:109:6:accelerate_to_max	3
+../Core/Src/main.c:126:6:decelerate_to_min	3
+../Core/Src/main.c:147:5:main	6
+../Core/Src/main.c:230:6:SystemClock_Config	4
+../Core/Src/main.c:275:13:SystemPower_Config	2
+../Core/Src/main.c:294:13:MX_ICACHE_Init	3
+../Core/Src/main.c:326:13:MX_LPUART1_UART_Init	5
+../Core/Src/main.c:373:13:MX_USART1_UART_Init	5
+../Core/Src/main.c:421:13:MX_TIM1_Init	7
+../Core/Src/main.c:503:13:MX_GPIO_Init	1
+../Core/Src/main.c:549:6:HAL_UART_RxCpltCallback	11
+../Core/Src/main.c:580:6:HAL_GPIO_EXTI_Callback	2
+../Core/Src/main.c:594:6:Error_Handler	1
