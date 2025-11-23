@@ -1,0 +1,91 @@
+Removed Pin From Net: NetName=Servo1 Pin=U1-22
+Removed Pin From Net: NetName=Servo2 Pin=U1-23
+Removed Pin From Net: NetName=CSB_ACCEL Pin=U1-58
+Removed Pin From Net: NetName=CSB_GYRO Pin=U1-59
+Added Component: Designator=J11(MOLEX_35362-0450)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Molex'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "35362-0450"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J12(JST_B5B-XH-A)
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/B5B-XH-A/JST+Sales+America+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "JST Sales"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "B5B-XH-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/B5B-XH-A/JST+Sales+America+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J13(MOLEX_35362-0450)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Molex'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "35362-0450"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J14(MOLEX_35362-0450)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Molex'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "35362-0450"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Add component: Footprint Not Found RESC2012X60N
+Added Pin To Net: NetName=3V3 Pin=J11-01
+Added Pin To Net: NetName=GND Pin=J11-04
+Added Pin To Net: NetName=3V3 Pin=J12-1
+Added Pin To Net: NetName=GND Pin=J12-5
+Added Pin To Net: NetName=3V3 Pin=J14-01
+Added Pin To Net: NetName=GND Pin=J14-04
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Added Pin To Net: NetName=Servo1 Pin=U1-24
+Added Pin To Net: NetName=Servo2 Pin=U1-25
+Added Pin To Net: NetName=CSB_ACCEL Pin=U1-53
+Added Pin To Net: NetName=CSB_GYRO Pin=U1-54
+Change Net Name : Old Net Name=SCL New Net Name=I2C2_SCL
+Change Net Name : Old Net Name=SDA New Net Name=I2C2_SDA
+Change Net Name : Old Net Name=SPI1_MISO New Net Name=SPI3_MISO
+Change Net Name : Old Net Name=SPI1_MOSI New Net Name=SPI3_MOSI
+Change Net Name : Old Net Name=SPI1_SCK New Net Name=SPI3_SCK
+Added Pin To Net: NetName=I2C4_SCL Pin=J11-02
+Added Pin To Net: NetName=I2C4_SCL Pin=U1-58
+Added Net: Name=I2C4_SCL
+Added Pin To Net: NetName=I2C4_SDA Pin=J11-03
+Added Pin To Net: NetName=I2C4_SDA Pin=U1-59
+Added Net: Name=I2C4_SDA
+Added Pin To Net: NetName=PC14 Pin=J13-01
+Added Pin To Net: NetName=PC14 Pin=U1-3
+Added Net: Name=PC14
+Added Pin To Net: NetName=PC15 Pin=J13-02
+Added Pin To Net: NetName=PC15 Pin=U1-4
+Added Net: Name=PC15
+Added Pin To Net: NetName=PH0 Pin=J13-03
+Added Pin To Net: NetName=PH0 Pin=U1-5
+Added Net: Name=PH0
+Added Pin To Net: NetName=PH1 Pin=J13-04
+Added Pin To Net: NetName=PH1 Pin=U1-6
+Added Net: Name=PH1
+Added Pin To Net: NetName=PWR_WKUP2 Pin=U1-2
+Added Pin To Net: NetName=PWR_WKUP2 Pin=XBee-4
+Added Net: Name=PWR_WKUP2
+Added Pin To Net: NetName=SPI1_MISO Pin=J12-3
+Added Pin To Net: NetName=SPI1_MISO Pin=U1-22
+Added Net: Name=SPI1_MISO
+Added Pin To Net: NetName=SPI1_MOSI Pin=J12-4
+Added Pin To Net: NetName=SPI1_MOSI Pin=U1-23
+Added Net: Name=SPI1_MOSI
+Added Pin To Net: NetName=SPI1_SCK Pin=J12-2
+Added Pin To Net: NetName=SPI1_SCK Pin=U1-21
+Added Net: Name=SPI1_SCK
+Added Pin To Net: NetName=UART4_RX Pin=J14-02
+Added Pin To Net: NetName=UART4_RX Pin=U1-52
+Added Net: Name=UART4_RX
+Added Pin To Net: NetName=UART4_TX Pin=J14-03
+Added Pin To Net: NetName=UART4_TX Pin=U1-51
+Added Net: Name=UART4_TX
+Added Member To Class: ClassName=Schematic Member=Component J11 35362-0450
+Added Member To Class: ClassName=Schematic Member=Component J12 B5B-XH-A
+Added Member To Class: ClassName=Schematic Member=Component J13 35362-0450
+Added Member To Class: ClassName=Schematic Member=Component J14 35362-0450
+Add Class Member: Failed to add class member : Component R? 3.3Ohm

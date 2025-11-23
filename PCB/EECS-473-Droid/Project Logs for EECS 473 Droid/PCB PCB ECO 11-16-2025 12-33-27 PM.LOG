@@ -1,0 +1,40 @@
+Remove Pin from Net: Failed to remove Pin
+Removed Pin From Net: NetName=CSB_ACCEL Pin=J?-1
+Remove Pin from Net: Failed to remove Pin
+Removed Pin From Net: NetName=SPI1_SCK Pin=J?-2
+Remove Pin from Net: Failed to remove Pin
+Removed Pin From Net: NetName=SPI1_MISO Pin=J?-3
+Removed Pin From Net: NetName=SPI1_MOSI Pin=J?-4
+Removed Pin From Net: NetName=CSB_GYRO Pin=J?-5
+Removed Pin From Net: NetName=GND Pin=J?-6
+Removed Pin From Net: NetName=GND Pin=J?-9
+Added Component: Designator=J9(SAMTEC_TMS-107-54-G-S)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TMS-107-54-G-S"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J10(SAMTEC_SLM-109-01-T-S)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "SLM-109-01-T-S"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Add component: Footprint Not Found RESC2012X60N
+Added Pin To Net: NetName=3V3 Pin=J9-01
+Added Pin To Net: NetName=3V3 Pin=J9-02
+Added Pin To Net: NetName=GND Pin=J9-03
+Added Pin To Net: NetName=CSB_ACCEL Pin=J10-01
+Added Pin To Net: NetName=SPI1_SCK Pin=J10-02
+Added Pin To Net: NetName=SPI1_MISO Pin=J10-03
+Added Pin To Net: NetName=SPI1_MOSI Pin=J10-04
+Added Pin To Net: NetName=CSB_GYRO Pin=J10-05
+Added Pin To Net: NetName=GND Pin=J10-06
+Added Pin To Net: NetName=GND Pin=J10-09
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Added Member To Class: ClassName=Schematic Member=Component J9 TMS-107-54-G-S
+Added Member To Class: ClassName=Schematic Member=Component J10 SLM-109-01-T-S
+Add Class Member: Failed to add class member : Component R? 3.3Ohm

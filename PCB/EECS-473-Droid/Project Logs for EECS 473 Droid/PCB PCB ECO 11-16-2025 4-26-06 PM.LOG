@@ -1,0 +1,11 @@
+Removed Pin From Net: NetName=XSHUT1 Pin=U1-36
+Removed Pin From Net: NetName=ToFINT1 Pin=U1-37
+Change Component Designator: OldDesignator= NewDesignator=J?
+Add component: Footprint Not Found RESC2012X60N
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Added Pin To Net: NetName=ToFINT1 Pin=U1-36
+Added Pin To Net: NetName=XSHUT1 Pin=U1-37
+Added Member To Class: ClassName=Schematic Member=Component C7 100nF
+Added Member To Class: ClassName=Schematic Member=Component C8 4.7uF
+Add Class Member: Failed to add class member : Component R? 3.3Ohm

@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=XSHUT1 Pin=U1-36
+Removed Pin From Net: NetName=ToFINT1 Pin=U1-37
+Added Pin To Net: NetName=ToFINT1 Pin=U1-36
+Added Pin To Net: NetName=XSHUT1 Pin=U1-37

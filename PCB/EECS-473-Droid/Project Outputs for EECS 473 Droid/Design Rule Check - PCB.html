@@ -1,0 +1,756 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 9em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD25\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">11/17/2025</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">2:50:59 AM</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:00</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc" class="file"><acronym title="C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc">C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">136</td></tr>
+</table>
+</td>
+</table><a name="IDKAZ0NBZTZWC5EYRHUACS2DYLQ35TAGFGBSDCNKU4B24YV1PGWXI"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID14FZYUL4HJSUPYJILNMSRT11NFJOGZWMOWQZ0JDUY2J0POVTJLFL">Clearance Constraint (Gap=0.127mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDIU0YWIOKYBLPMDWT42GYQCNGXED4DMYN2G3ROKO4LN0TZX1XFIRH">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDGWR20VPMFRTJBFMB5H3VE2UTSGF3AMEJBV3YJOSW2321RUV2UQ">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDVVQ5RCMJFMREGUMXQHNIXU4YIIVX4ZKLWTZWGEC0QZLF1K2W0D5F">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID1KMCN5B3HIZYJD1ATH0WOUG3QFS2HSDQZAGCSCRENPFGMLLDZML">Width Constraint (Min=0.254mm) (Max=2.54mm) (Preferred=0.254mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDL0OIAKN4ZMAVG54OKODXWB4V2PKXDQDCA4LYZMOS355LNFPDMGKE">Routing Topology Rule(Topology=Shortest) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDK4CATNJWGE4RD0XW533L2WIHNPQ4B3XJJW4XMAMRSF5UVDS1FBP">Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDP4CJNOISG3S1F3PSU0AME2FUAJRAW0CALIHMDQPU1ZMY4A2XRGVD">Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (All)</a></td>
+<td class="column2">6</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVQAOGRL5IGXKKHP5SUZ0ZSPW4MY0THKPF2KJLMNQ4WJ5SOFFPESE">Hole To Hole Clearance (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDR1PRYD4SBRI1FVG4CTQRECP5GHIOMUKX1D52ETDHZDHQACDZZFWC">Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">94</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDW0WCFOTRACWAJTXKHRFSPR5M4IX1WLGLGKJTSXGEHERJSU4FAUML">Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)</a></td>
+<td class="column2">21</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDUVS3KNKZ5IUDP5M00VEZKE0ROA35SSMWXP2PZKS4ZXWPJ1AB4ZK">Silk to Silk (Clearance=0.254mm) (All),(All)</a></td>
+<td class="column2">14</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDDITURGI3YVGWBRXGRIJQW4O4SM0GNR5SYFUYHWFOJBJ4U21Y4SWG">Net Antennae (Tolerance=0mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDIUXBF34ZFF2FDLS5HF2BESQAFLMTDWJ21UZIG4ENQSF4XUZB2YCC">Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">136</td>
+</tr>
+</table><br><a name="IDGWR20VPMFRTJBFMB5H3VE2UTSGF3AMEJBV3YJOSW2321RUV2UQ"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Un-Routed Net Constraint ( (All) )</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2442.457mil|Location2.X=2565.417mil|Location1.Y=2706.236mil|Location2.Y=2767.385mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2442.457mil|Location2.X=2565.417mil|Location1.Y=2706.236mil|Location2.Y=2767.385mil|Absolute=True">Un-Routed Net Constraint: Net 3V3 Between Pad IMU-11(38.635mm,44.115mm) on Top Layer And Pad IMU-3(40.965mm,45.115mm) on Top Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDP4CJNOISG3S1F3PSU0AME2FUAJRAW0CALIHMDQPU1ZMY4A2XRGVD"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=995.438mil|Location2.X=1122.672mil|Location1.Y=3182.052mil|Location2.Y=3309.286mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=995.438mil|Location2.X=1122.672mil|Location1.Y=3182.052mil|Location2.Y=3309.286mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 2.54mm) Pad Free-2(3.1mm,57.54mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.249mil|Location2.X=3734.483mil|Location1.Y=3182.052mil|Location2.Y=3309.286mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.249mil|Location2.X=3734.483mil|Location1.Y=3182.052mil|Location2.Y=3309.286mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 2.54mm) Pad Free-3(69.44mm,57.54mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=995.438mil|Location2.X=1122.672mil|Location1.Y=1038.745mil|Location2.Y=1165.979mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=995.438mil|Location2.X=1122.672mil|Location1.Y=1038.745mil|Location2.Y=1165.979mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 2.54mm) Pad Free-4(3.1mm,3.1mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.249mil|Location2.X=3734.483mil|Location1.Y=1038.745mil|Location2.Y=1165.979mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.249mil|Location2.X=3734.483mil|Location1.Y=1038.745mil|Location2.Y=1165.979mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 2.54mm) Pad Free-5(69.44mm,3.1mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3335.005mil|Location2.X=3515.389mil|Location1.Y=1118.47mil|Location2.Y=1298.854mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3335.005mil|Location2.X=3515.389mil|Location1.Y=1118.47mil|Location2.Y=1298.854mil|Absolute=True">Hole Size Constraint: (4.55mm &gt; 2.54mm) Pad XT60-N(63.2mm,5.8mm) on Multi-Layer Actual Hole Size = 4.55mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3335.005mil|Location2.X=3515.389mil|Location1.Y=1401.934mil|Location2.Y=1582.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3335.005mil|Location2.X=3515.389mil|Location1.Y=1401.934mil|Location2.Y=1582.318mil|Absolute=True">Hole Size Constraint: (4.55mm &gt; 2.54mm) Pad XT60-P(63.2mm,13mm) on Multi-Layer Actual Hole Size = 4.55mm</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDR1PRYD4SBRI1FVG4CTQRECP5GHIOMUKX1D52ETDHZDHQACDZZFWC"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3192.102mil|Location2.X=3204.331mil|Location1.Y=1513.314mil|Location2.Y=1524.564mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3192.102mil|Location2.X=3204.331mil|Location1.Y=1513.314mil|Location2.Y=1524.564mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.189mm &lt; 0.254mm) Between Pad C1-1(56.533mm,12.921mm) on Top Layer And Via (58.027mm,14.582mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.189mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2208.079mil|Location2.X=2219.329mil|Location1.Y=2338.334mil|Location2.Y=2351.85mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2208.079mil|Location2.X=2219.329mil|Location1.Y=2338.334mil|Location2.Y=2351.85mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.165mm &lt; 0.254mm) Between Pad C11-1(31.788mm,35.255mm) on Top Layer And Via (32.842mm,34.493mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.165mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1955.871mil|Location2.X=1967.121mil|Location1.Y=2006.186mil|Location2.Y=2017.436mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1955.871mil|Location2.X=1967.121mil|Location1.Y=2006.186mil|Location2.Y=2017.436mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.133mm &lt; 0.254mm) Between Pad C15-1(27.1mm,26.236mm) on Top Layer And Via (25.6mm,26.2mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.133mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2727.747mil|Location2.X=2738.997mil|Location1.Y=2330.033mil|Location2.Y=2341.283mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2727.747mil|Location2.X=2738.997mil|Location1.Y=2330.033mil|Location2.Y=2341.283mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.182mm &lt; 0.254mm) Between Pad C17-1(44.975mm,34.4mm) on Top Layer And Via (46.074mm,34.426mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.182mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2763.784mil|Location2.X=2775.034mil|Location1.Y=1746.343mil|Location2.Y=1757.593mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2763.784mil|Location2.X=2775.034mil|Location1.Y=1746.343mil|Location2.Y=1757.593mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.203mm &lt; 0.254mm) Between Pad C18-1(45.76mm,19.6mm) on Top Layer And Via (47mm,19.6mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.203mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2357.84mil|Location2.X=2369.09mil|Location1.Y=2773.903mil|Location2.Y=2785.153mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2357.84mil|Location2.X=2369.09mil|Location1.Y=2773.903mil|Location2.Y=2785.153mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.153mm &lt; 0.254mm) Between Pad C5-1(36.9mm,45.675mm) on Top Layer And Via (35.8mm,45.7mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.153mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2243.391mil|Location2.X=2254.641mil|Location1.Y=1728.41mil|Location2.Y=1739.66mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2243.391mil|Location2.X=2254.641mil|Location1.Y=1728.41mil|Location2.Y=1739.66mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.128mm &lt; 0.254mm) Between Pad C9-1(33.325mm,19.8mm) on Top Layer And Via (33.325mm,18.725mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.128mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2524.493mil|Location2.X=2535.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2524.493mil|Location2.X=2535.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.057mm &lt; 0.254mm) Between Pad IMU-01(41.1mm,57.88mm) on Multi-Layer And Pad IMU-02(39.83mm,57.88mm) on Multi-Layer [Top Solder] Mask Sliver [0.057mm] / [Bottom Solder] Mask Sliver [0.057mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2474.493mil|Location2.X=2485.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2474.493mil|Location2.X=2485.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.057mm &lt; 0.254mm) Between Pad IMU-02(39.83mm,57.88mm) on Multi-Layer And Pad IMU-03(38.56mm,57.88mm) on Multi-Layer [Top Solder] Mask Sliver [0.057mm] / [Bottom Solder] Mask Sliver [0.057mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2424.493mil|Location2.X=2435.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2424.493mil|Location2.X=2435.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.057mm &lt; 0.254mm) Between Pad IMU-03(38.56mm,57.88mm) on Multi-Layer And Pad IMU-04(37.29mm,57.88mm) on Multi-Layer [Top Solder] Mask Sliver [0.057mm] / [Bottom Solder] Mask Sliver [0.057mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2374.493mil|Location2.X=2385.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2374.493mil|Location2.X=2385.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.057mm &lt; 0.254mm) Between Pad IMU-04(37.29mm,57.88mm) on Multi-Layer And Pad IMU-05(36.02mm,57.88mm) on Multi-Layer [Top Solder] Mask Sliver [0.057mm] / [Bottom Solder] Mask Sliver [0.057mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2324.493mil|Location2.X=2335.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2324.493mil|Location2.X=2335.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.057mm &lt; 0.254mm) Between Pad IMU-05(36.02mm,57.88mm) on Multi-Layer And Pad IMU-06(34.75mm,57.88mm) on Multi-Layer [Top Solder] Mask Sliver [0.057mm] / [Bottom Solder] Mask Sliver [0.057mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2274.493mil|Location2.X=2285.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2274.493mil|Location2.X=2285.743mil|Location1.Y=3253.43mil|Location2.Y=3264.68mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.057mm &lt; 0.254mm) Between Pad IMU-06(34.75mm,57.88mm) on Multi-Layer And Pad IMU-07(33.48mm,57.88mm) on Multi-Layer [Top Solder] Mask Sliver [0.057mm] / [Bottom Solder] Mask Sliver [0.057mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2511.883mil|Location2.X=2523.413mil|Location1.Y=2636.871mil|Location2.Y=2648.121mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2511.883mil|Location2.X=2523.413mil|Location1.Y=2636.871mil|Location2.Y=2648.121mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.216mm &lt; 0.254mm) Between Pad IMU-8(39.8mm,42.7mm) on Top Layer And Via (40.437mm,41.859mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.216mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2354.674mil|Location2.Y=2365.924mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2354.674mil|Location2.Y=2365.924mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-1(58.463mm,34.7mm) on Top Layer And Pad ToF-12(59.263mm,34.7mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-1(58.463mm,34.7mm) on Top Layer And Pad ToF-2(58.463mm,35.5mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-10(60.063mm,35.5mm) on Top Layer And Pad ToF-11(60.063mm,34.7mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.137mm &lt; 0.254mm) Between Pad ToF-10(60.063mm,35.5mm) on Top Layer And Pad ToF-12(59.263mm,34.7mm) on Top Layer [Top Solder] Mask Sliver [0.137mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2388.075mil|Location2.Y=2399.325mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2388.075mil|Location2.Y=2399.325mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-10(60.063mm,35.5mm) on Top Layer And Pad ToF-9(60.063mm,36.3mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2326.989mil|Location2.Y=2338.239mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2326.989mil|Location2.Y=2338.239mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-11(60.063mm,34.7mm) on Top Layer And Pad ToF-12(59.263mm,34.7mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2356.579mil|Location2.Y=2367.829mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.137mm &lt; 0.254mm) Between Pad ToF-12(59.263mm,34.7mm) on Top Layer And Pad ToF-2(58.463mm,35.5mm) on Top Layer [Top Solder] Mask Sliver [0.137mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2388.075mil|Location2.Y=2399.325mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2388.075mil|Location2.Y=2399.325mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-2(58.463mm,35.5mm) on Top Layer And Pad ToF-3(58.463mm,36.3mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3249.483mil|Location2.X=3261.231mil|Location1.Y=2389.469mil|Location2.Y=2400.719mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3249.483mil|Location2.X=3261.231mil|Location1.Y=2389.469mil|Location2.Y=2400.719mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.212mm &lt; 0.254mm) Between Pad ToF-2(58.463mm,35.5mm) on Top Layer And Via (59.163mm,36.3mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.212mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2419.572mil|Location2.Y=2430.822mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2419.572mil|Location2.Y=2430.822mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-3(58.463mm,36.3mm) on Top Layer And Pad ToF-4(58.463mm,37.1mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.92mil|Location2.X=3258.17mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-4(58.463mm,37.1mm) on Top Layer And Pad ToF-5(58.463mm,37.9mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.137mm &lt; 0.254mm) Between Pad ToF-4(58.463mm,37.1mm) on Top Layer And Pad ToF-6(59.263mm,37.9mm) on Top Layer [Top Solder] Mask Sliver [0.137mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3249.483mil|Location2.X=3261.169mil|Location1.Y=2418.178mil|Location2.Y=2429.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3249.483mil|Location2.X=3261.169mil|Location1.Y=2418.178mil|Location2.Y=2429.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.212mm &lt; 0.254mm) Between Pad ToF-4(58.463mm,37.1mm) on Top Layer And Via (59.163mm,36.3mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.212mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2452.973mil|Location2.Y=2464.223mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3248.825mil|Location2.X=3260.075mil|Location1.Y=2452.973mil|Location2.Y=2464.223mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-5(58.463mm,37.9mm) on Top Layer And Pad ToF-6(59.263mm,37.9mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2480.658mil|Location2.Y=2491.908mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2480.658mil|Location2.Y=2491.908mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-6(59.263mm,37.9mm) on Top Layer And Pad ToF-7(60.063mm,37.9mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3280.321mil|Location2.X=3291.571mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.137mm &lt; 0.254mm) Between Pad ToF-6(59.263mm,37.9mm) on Top Layer And Pad ToF-8(60.063mm,37.1mm) on Top Layer [Top Solder] Mask Sliver [0.137mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2451.068mil|Location2.Y=2462.318mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-7(60.063mm,37.9mm) on Top Layer And Pad ToF-8(60.063mm,37.1mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2419.572mil|Location2.Y=2430.822mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.912mil|Location2.X=3321.162mil|Location1.Y=2419.572mil|Location2.Y=2430.822mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.097mm &lt; 0.254mm) Between Pad ToF-8(60.063mm,37.1mm) on Top Layer And Pad ToF-9(60.063mm,36.3mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3278.431mil|Location2.X=3289.681mil|Location1.Y=2403.824mil|Location2.Y=2415.074mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3278.431mil|Location2.X=3289.681mil|Location1.Y=2403.824mil|Location2.Y=2415.074mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.193mm &lt; 0.254mm) Between Pad ToF-9(60.063mm,36.3mm) on Top Layer And Via (59.163mm,36.3mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.193mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2214.848mil|Location2.Y=2226.098mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2214.848mil|Location2.Y=2226.098mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-1(31.85mm,31.75mm) on Top Layer And Pad U1-2(31.85mm,31.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2037.683mil|Location2.Y=2048.933mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2037.683mil|Location2.Y=2048.933mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-10(31.85mm,27.25mm) on Top Layer And Pad U1-11(31.85mm,26.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2057.368mil|Location2.Y=2068.618mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2057.368mil|Location2.Y=2068.618mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-10(31.85mm,27.25mm) on Top Layer And Pad U1-9(31.85mm,27.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2017.998mil|Location2.Y=2029.248mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2017.998mil|Location2.Y=2029.248mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-11(31.85mm,26.75mm) on Top Layer And Pad U1-12(31.85mm,26.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1998.313mil|Location2.Y=2009.563mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1998.313mil|Location2.Y=2009.563mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-12(31.85mm,26.25mm) on Top Layer And Pad U1-13(31.85mm,25.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1978.628mil|Location2.Y=1989.878mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1978.628mil|Location2.Y=1989.878mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-13(31.85mm,25.75mm) on Top Layer And Pad U1-14(31.85mm,25.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1958.943mil|Location2.Y=1970.193mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1958.943mil|Location2.Y=1970.193mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-14(31.85mm,25.25mm) on Top Layer And Pad U1-15(31.85mm,24.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1939.258mil|Location2.Y=1950.508mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=1939.258mil|Location2.Y=1950.508mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-15(31.85mm,24.75mm) on Top Layer And Pad U1-16(31.85mm,24.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2273.904mil|Location2.X=2285.154mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2273.904mil|Location2.X=2285.154mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-17(33.85mm,22.25mm) on Top Layer And Pad U1-18(34.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2293.589mil|Location2.X=2304.839mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2293.589mil|Location2.X=2304.839mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-18(34.35mm,22.25mm) on Top Layer And Pad U1-19(34.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2313.274mil|Location2.X=2324.524mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2313.274mil|Location2.X=2324.524mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-19(34.85mm,22.25mm) on Top Layer And Pad U1-20(35.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2195.163mil|Location2.Y=2206.413mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2195.163mil|Location2.Y=2206.413mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-2(31.85mm,31.25mm) on Top Layer And Pad U1-3(31.85mm,30.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2332.959mil|Location2.X=2344.209mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2332.959mil|Location2.X=2344.209mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-20(35.35mm,22.25mm) on Top Layer And Pad U1-21(35.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2352.644mil|Location2.X=2363.894mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2352.644mil|Location2.X=2363.894mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-21(35.85mm,22.25mm) on Top Layer And Pad U1-22(36.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2372.329mil|Location2.X=2383.579mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2372.329mil|Location2.X=2383.579mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-22(36.35mm,22.25mm) on Top Layer And Pad U1-23(36.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2392.014mil|Location2.X=2403.264mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2392.014mil|Location2.X=2403.264mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-23(36.85mm,22.25mm) on Top Layer And Pad U1-24(37.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2411.699mil|Location2.X=2422.949mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2411.699mil|Location2.X=2422.949mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-24(37.35mm,22.25mm) on Top Layer And Pad U1-25(37.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2431.384mil|Location2.X=2442.634mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2431.384mil|Location2.X=2442.634mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-25(37.85mm,22.25mm) on Top Layer And Pad U1-26(38.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2451.069mil|Location2.X=2462.319mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2451.069mil|Location2.X=2462.319mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-26(38.35mm,22.25mm) on Top Layer And Pad U1-27(38.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2470.754mil|Location2.X=2482.004mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2470.754mil|Location2.X=2482.004mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-27(38.85mm,22.25mm) on Top Layer And Pad U1-28(39.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2490.439mil|Location2.X=2501.689mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2490.439mil|Location2.X=2501.689mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-28(39.35mm,22.25mm) on Top Layer And Pad U1-29(39.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2510.124mil|Location2.X=2521.374mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2510.124mil|Location2.X=2521.374mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-29(39.85mm,22.25mm) on Top Layer And Pad U1-30(40.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2175.478mil|Location2.Y=2186.728mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2175.478mil|Location2.Y=2186.728mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-3(31.85mm,30.75mm) on Top Layer And Pad U1-4(31.85mm,30.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2529.809mil|Location2.X=2541.059mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2529.809mil|Location2.X=2541.059mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-30(40.35mm,22.25mm) on Top Layer And Pad U1-31(40.85mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2549.494mil|Location2.X=2560.744mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2549.494mil|Location2.X=2560.744mil|Location1.Y=1827.174mil|Location2.Y=1838.424mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-31(40.85mm,22.25mm) on Top Layer And Pad U1-32(41.35mm,22.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1939.258mil|Location2.Y=1950.508mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1939.258mil|Location2.Y=1950.508mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-33(43.35mm,24.25mm) on Top Layer And Pad U1-34(43.35mm,24.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1958.943mil|Location2.Y=1970.193mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1958.943mil|Location2.Y=1970.193mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-34(43.35mm,24.75mm) on Top Layer And Pad U1-35(43.35mm,25.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1978.628mil|Location2.Y=1989.878mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1978.628mil|Location2.Y=1989.878mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-35(43.35mm,25.25mm) on Top Layer And Pad U1-36(43.35mm,25.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1998.313mil|Location2.Y=2009.563mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=1998.313mil|Location2.Y=2009.563mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-36(43.35mm,25.75mm) on Top Layer And Pad U1-37(43.35mm,26.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2017.998mil|Location2.Y=2029.248mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2017.998mil|Location2.Y=2029.248mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-37(43.35mm,26.25mm) on Top Layer And Pad U1-38(43.35mm,26.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2037.683mil|Location2.Y=2048.933mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2037.683mil|Location2.Y=2048.933mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-38(43.35mm,26.75mm) on Top Layer And Pad U1-39(43.35mm,27.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2057.368mil|Location2.Y=2068.618mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2057.368mil|Location2.Y=2068.618mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-39(43.35mm,27.25mm) on Top Layer And Pad U1-40(43.35mm,27.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2155.793mil|Location2.Y=2167.043mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2155.793mil|Location2.Y=2167.043mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-4(31.85mm,30.25mm) on Top Layer And Pad U1-5(31.85mm,29.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2077.053mil|Location2.Y=2088.303mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2077.053mil|Location2.Y=2088.303mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-40(43.35mm,27.75mm) on Top Layer And Pad U1-41(43.35mm,28.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2096.738mil|Location2.Y=2107.988mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2096.738mil|Location2.Y=2107.988mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-41(43.35mm,28.25mm) on Top Layer And Pad U1-42(43.35mm,28.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2116.423mil|Location2.Y=2127.673mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2116.423mil|Location2.Y=2127.673mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-42(43.35mm,28.75mm) on Top Layer And Pad U1-43(43.35mm,29.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2136.108mil|Location2.Y=2147.358mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2136.108mil|Location2.Y=2147.358mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-43(43.35mm,29.25mm) on Top Layer And Pad U1-44(43.35mm,29.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2155.793mil|Location2.Y=2167.043mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2155.793mil|Location2.Y=2167.043mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-44(43.35mm,29.75mm) on Top Layer And Pad U1-45(43.35mm,30.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2175.478mil|Location2.Y=2186.728mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2175.478mil|Location2.Y=2186.728mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-45(43.35mm,30.25mm) on Top Layer And Pad U1-46(43.35mm,30.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2195.163mil|Location2.Y=2206.413mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2195.163mil|Location2.Y=2206.413mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-46(43.35mm,30.75mm) on Top Layer And Pad U1-47(43.35mm,31.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2214.848mil|Location2.Y=2226.098mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2661.576mil|Location2.X=2672.826mil|Location1.Y=2214.848mil|Location2.Y=2226.098mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-47(43.35mm,31.25mm) on Top Layer And Pad U1-48(43.35mm,31.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2549.494mil|Location2.X=2560.744mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2549.494mil|Location2.X=2560.744mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-49(41.35mm,33.75mm) on Top Layer And Pad U1-50(40.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2136.108mil|Location2.Y=2147.358mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2136.108mil|Location2.Y=2147.358mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-5(31.85mm,29.75mm) on Top Layer And Pad U1-6(31.85mm,29.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2529.809mil|Location2.X=2541.059mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2529.809mil|Location2.X=2541.059mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-50(40.85mm,33.75mm) on Top Layer And Pad U1-51(40.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2510.124mil|Location2.X=2521.374mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2510.124mil|Location2.X=2521.374mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-51(40.35mm,33.75mm) on Top Layer And Pad U1-52(39.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2490.439mil|Location2.X=2501.689mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2490.439mil|Location2.X=2501.689mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-52(39.85mm,33.75mm) on Top Layer And Pad U1-53(39.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2470.754mil|Location2.X=2482.004mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2470.754mil|Location2.X=2482.004mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-53(39.35mm,33.75mm) on Top Layer And Pad U1-54(38.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2451.069mil|Location2.X=2462.319mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2451.069mil|Location2.X=2462.319mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-54(38.85mm,33.75mm) on Top Layer And Pad U1-55(38.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2431.384mil|Location2.X=2442.634mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2431.384mil|Location2.X=2442.634mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-55(38.35mm,33.75mm) on Top Layer And Pad U1-56(37.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2411.699mil|Location2.X=2422.949mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2411.699mil|Location2.X=2422.949mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-56(37.85mm,33.75mm) on Top Layer And Pad U1-57(37.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2392.014mil|Location2.X=2403.264mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2392.014mil|Location2.X=2403.264mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-57(37.35mm,33.75mm) on Top Layer And Pad U1-58(36.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2372.329mil|Location2.X=2383.579mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2372.329mil|Location2.X=2383.579mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-58(36.85mm,33.75mm) on Top Layer And Pad U1-59(36.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2352.644mil|Location2.X=2363.894mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2352.644mil|Location2.X=2363.894mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-59(36.35mm,33.75mm) on Top Layer And Pad U1-60(35.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2116.423mil|Location2.Y=2127.673mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2116.423mil|Location2.Y=2127.673mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-6(31.85mm,29.25mm) on Top Layer And Pad U1-7(31.85mm,28.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2332.959mil|Location2.X=2344.209mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2332.959mil|Location2.X=2344.209mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-60(35.85mm,33.75mm) on Top Layer And Pad U1-61(35.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2313.274mil|Location2.X=2324.524mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2313.274mil|Location2.X=2324.524mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-61(35.35mm,33.75mm) on Top Layer And Pad U1-62(34.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2293.589mil|Location2.X=2304.839mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2293.589mil|Location2.X=2304.839mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-62(34.85mm,33.75mm) on Top Layer And Pad U1-63(34.35mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2273.904mil|Location2.X=2285.154mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2273.904mil|Location2.X=2285.154mil|Location1.Y=2326.93mil|Location2.Y=2338.18mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-63(34.35mm,33.75mm) on Top Layer And Pad U1-64(33.85mm,33.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2096.738mil|Location2.Y=2107.988mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2096.738mil|Location2.Y=2107.988mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-7(31.85mm,28.75mm) on Top Layer And Pad U1-8(31.85mm,28.25mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2077.053mil|Location2.Y=2088.303mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.82mil|Location2.X=2173.07mil|Location1.Y=2077.053mil|Location2.Y=2088.303mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.195mm &lt; 0.254mm) Between Pad U1-8(31.85mm,28.25mm) on Top Layer And Pad U1-9(31.85mm,27.75mm) on Top Layer [Top Solder] Mask Sliver [0.195mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3675.241mil|Location2.X=3686.491mil|Location1.Y=2036.961mil|Location2.Y=2048.211mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3675.241mil|Location2.X=3686.491mil|Location1.Y=2036.961mil|Location2.Y=2048.211mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.063mm &lt; 0.254mm) Between Region (0 hole(s)) Top Solder And Via (69.694mm,27.75mm) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.063mm]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDW0WCFOTRACWAJTXKHRFSPR5M4IX1WLGLGKJTSXGEHERJSU4FAUML"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3192.899mil|Location2.X=3200.566mil|Location1.Y=2341.56mil|Location2.Y=2349.227mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3192.899mil|Location2.X=3200.566mil|Location1.Y=2341.56mil|Location2.Y=2349.227mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Arc (57.517mm,34.673mm) on Top Overlay And Pad C8-2(56.563mm,35.122mm) on Top Layer [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2572.991mil|Location2.X=2584.241mil|Location1.Y=2532.025mil|Location2.Y=2543.275mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2572.991mil|Location2.X=2584.241mil|Location1.Y=2532.025mil|Location2.Y=2543.275mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.106mm &lt; 0.254mm) Between Pad -01(41.1mm,40.1mm) on Multi-Layer And Track (41.85mm,39.15mm)(41.85mm,41.05mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.106mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2126.522mil|Location2.X=2137.772mil|Location1.Y=2553.43mil|Location2.Y=2564.68mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2126.522mil|Location2.X=2137.772mil|Location1.Y=2553.43mil|Location2.Y=2564.68mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.079mm &lt; 0.254mm) Between Pad -09(30.94mm,40.1mm) on Multi-Layer And Track (30.19mm,39.15mm)(30.19mm,41.05mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.079mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2099.035mil|Location2.X=2110.285mil|Location1.Y=2348.259mil|Location2.Y=2359.509mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2099.035mil|Location2.X=2110.285mil|Location1.Y=2348.259mil|Location2.Y=2359.509mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.24mm &lt; 0.254mm) Between Pad C11-2(30.238mm,35.255mm) on Top Layer And Text "C11" (29.488mm,34.822mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.24mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2723.213mil|Location2.X=2734.463mil|Location1.Y=2309.729mil|Location2.Y=2320.979mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2723.213mil|Location2.X=2734.463mil|Location1.Y=2309.729mil|Location2.Y=2320.979mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.155mm &lt; 0.254mm) Between Pad C17-1(44.975mm,34.4mm) on Top Layer And Track (45.64mm,31.1mm)(45.64mm,43.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.155mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2569.434mil|Location2.X=2580.684mil|Location1.Y=3233.548mil|Location2.Y=3244.798mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2569.434mil|Location2.X=2580.684mil|Location1.Y=3233.548mil|Location2.Y=3244.798mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.003mm &lt; 0.254mm) Between Pad IMU-01(41.1mm,57.88mm) on Multi-Layer And Track (41.735mm,57.025mm)(41.735mm,58.735mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.003mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1249.622mil|Location2.X=1260.872mil|Location1.Y=2557.367mil|Location2.Y=2568.617mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1249.622mil|Location2.X=1260.872mil|Location1.Y=2557.367mil|Location2.Y=2568.617mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.233mm &lt; 0.254mm) Between Pad R4-1(8.55mm,40.2mm) on Top Layer And Text "R4" (7.083mm,39.95mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.233mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1283.745mil|Location2.X=1294.995mil|Location1.Y=2543.588mil|Location2.Y=2554.838mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1283.745mil|Location2.X=1294.995mil|Location1.Y=2543.588mil|Location2.Y=2554.838mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R4-1(8.55mm,40.2mm) on Top Layer And Track (9.1mm,39.85mm)(9.5mm,39.85mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1283.745mil|Location2.X=1294.995mil|Location1.Y=2571.147mil|Location2.Y=2582.397mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1283.745mil|Location2.X=1294.995mil|Location1.Y=2571.147mil|Location2.Y=2582.397mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R4-1(8.55mm,40.2mm) on Top Layer And Track (9.1mm,40.55mm)(9.5mm,40.55mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1311.304mil|Location2.X=1322.554mil|Location1.Y=2543.588mil|Location2.Y=2554.838mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1311.304mil|Location2.X=1322.554mil|Location1.Y=2543.588mil|Location2.Y=2554.838mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R4-2(10.05mm,40.2mm) on Top Layer And Track (9.1mm,39.85mm)(9.5mm,39.85mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1311.304mil|Location2.X=1322.554mil|Location1.Y=2571.147mil|Location2.Y=2582.397mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1311.304mil|Location2.X=1322.554mil|Location1.Y=2571.147mil|Location2.Y=2582.397mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R4-2(10.05mm,40.2mm) on Top Layer And Track (9.1mm,40.55mm)(9.5mm,40.55mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2330.989mil|Location2.Y=2342.239mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2330.989mil|Location2.Y=2342.239mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-1(58.463mm,34.7mm) on Top Layer And Track (57.983mm,33.85mm)(57.983mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2362.485mil|Location2.Y=2373.735mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2362.485mil|Location2.Y=2373.735mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-10(60.063mm,35.5mm) on Top Layer And Track (60.543mm,33.85mm)(60.543mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2330.989mil|Location2.Y=2342.239mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2330.989mil|Location2.Y=2342.239mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-11(60.063mm,34.7mm) on Top Layer And Track (60.543mm,33.85mm)(60.543mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2362.485mil|Location2.Y=2373.735mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2362.485mil|Location2.Y=2373.735mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-2(58.463mm,35.5mm) on Top Layer And Track (57.983mm,33.85mm)(57.983mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2393.981mil|Location2.Y=2405.231mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2393.981mil|Location2.Y=2405.231mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-3(58.463mm,36.3mm) on Top Layer And Track (57.983mm,33.85mm)(57.983mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2425.477mil|Location2.Y=2436.727mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2425.477mil|Location2.Y=2436.727mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-4(58.463mm,37.1mm) on Top Layer And Track (57.983mm,33.85mm)(57.983mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2456.973mil|Location2.Y=2468.223mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.957mil|Location2.X=3231.207mil|Location1.Y=2456.973mil|Location2.Y=2468.223mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-5(58.463mm,37.9mm) on Top Layer And Track (57.983mm,33.85mm)(57.983mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2456.973mil|Location2.Y=2468.223mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2456.973mil|Location2.Y=2468.223mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-7(60.063mm,37.9mm) on Top Layer And Track (60.543mm,33.85mm)(60.543mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2425.477mil|Location2.Y=2436.727mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2425.477mil|Location2.Y=2436.727mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-8(60.063mm,37.1mm) on Top Layer And Track (60.543mm,33.85mm)(60.543mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2393.981mil|Location2.Y=2405.231mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3309.189mil|Location2.X=3320.439mil|Location1.Y=2393.981mil|Location2.Y=2405.231mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.167mm &lt; 0.254mm) Between Pad ToF-9(60.063mm,36.3mm) on Top Layer And Track (60.543mm,33.85mm)(60.543mm,38.75mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.167mm]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDDUVS3KNKZ5IUDP5M00VEZKE0ROA35SSMWXP2PZKS4ZXWPJ1AB4ZK"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk to Silk (Clearance=0.254mm) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2255.923mil|Location2.X=2267.173mil|Location1.Y=2246.113mil|Location2.Y=2258.415mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2255.923mil|Location2.X=2267.173mil|Location1.Y=2246.113mil|Location2.Y=2258.415mil|Absolute=True">Silk To Silk Clearance Constraint: (0.162mm &lt; 0.254mm) Between Arc (33.925mm,32.502mm) on Top Overlay And Text "U1" (32.867mm,32.25mm) on Top Overlay Silk Text to Silk Clearance [0.162mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3780.782mil|Location2.X=3792.032mil|Location1.Y=2207.102mil|Location2.Y=2218.352mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3780.782mil|Location2.X=3792.032mil|Location1.Y=2207.102mil|Location2.Y=2218.352mil|Absolute=True">Silk To Silk Clearance Constraint: (0.076mm &lt; 0.254mm) Between Text "Amy Lee, Cindy Yang, Gabe Warner, Grant Wang, Teja Koduru, Tenzin Sherab" (72.106mm,9.727mm) on Top Overlay And Track (72.54mm,58.1mm)(72.54mm,2.34mm) on Top Overlay Silk Text to Silk Clearance [0.076mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2253.41mil|Location2.X=2264.66mil|Location1.Y=2495.948mil|Location2.Y=2507.198mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2253.41mil|Location2.X=2264.66mil|Location1.Y=2495.948mil|Location2.Y=2507.198mil|Absolute=True">Silk To Silk Clearance Constraint: (0.18mm &lt; 0.254mm) Between Text "C19" (33.38mm,38.1mm) on Top Overlay And Track (30.19mm,38.83mm)(41.85mm,38.83mm) on Top Overlay Silk Text to Silk Clearance [0.18mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1873.649mil|Location2.X=1884.899mil|Location1.Y=1270.233mil|Location2.Y=1281.483mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1873.649mil|Location2.X=1884.899mil|Location1.Y=1270.233mil|Location2.Y=1281.483mil|Absolute=True">Silk To Silk Clearance Constraint: (0.187mm &lt; 0.254mm) Between Text "ESC" (23.934mm,7.65mm) on Top Overlay And Track (10.35mm,7.35mm)(25.25mm,7.35mm) on Top Overlay Silk Text to Silk Clearance [0.187mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1924.103mil|Location2.X=1935.353mil|Location1.Y=1270.226mil|Location2.Y=1281.476mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1924.103mil|Location2.X=1935.353mil|Location1.Y=1270.226mil|Location2.Y=1281.476mil|Absolute=True">Silk To Silk Clearance Constraint: (0.194mm &lt; 0.254mm) Between Text "ESC" (23.934mm,7.65mm) on Top Overlay And Track (25.25mm,1.6mm)(25.25mm,7.35mm) on Top Overlay Silk Text to Silk Clearance [0.194mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1331.387mil|Location2.X=1342.637mil|Location1.Y=1253.245mil|Location2.Y=1264.495mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1331.387mil|Location2.X=1342.637mil|Location1.Y=1253.245mil|Location2.Y=1264.495mil|Absolute=True">Silk To Silk Clearance Constraint: (0.253mm &lt; 0.254mm) Between Text "GND" (8.651mm,6.992mm) on Top Overlay And Track (10.35mm,1.6mm)(10.35mm,7.35mm) on Top Overlay Silk Text to Silk Clearance [0.253mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1331.387mil|Location2.X=1342.637mil|Location1.Y=1264.06mil|Location2.Y=1275.31mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1331.387mil|Location2.X=1342.637mil|Location1.Y=1264.06mil|Location2.Y=1275.31mil|Absolute=True">Silk To Silk Clearance Constraint: (0.253mm &lt; 0.254mm) Between Text "GND" (8.651mm,6.992mm) on Top Overlay And Track (10.35mm,7.35mm)(25.25mm,7.35mm) on Top Overlay Silk Text to Silk Clearance [0.253mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2225.785mil|Location2.X=2237.035mil|Location1.Y=3310.823mil|Location2.Y=3322.073mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2225.785mil|Location2.X=2237.035mil|Location1.Y=3310.823mil|Location2.Y=3322.073mil|Absolute=True">Silk To Silk Clearance Constraint: (0.228mm &lt; 0.254mm) Between Text "IMU" (32.9mm,59.5mm) on Top Overlay And Track (30.193mm,59.099mm)(32.845mm,59.099mm) on Top Overlay Silk Text to Silk Clearance [0.228mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2229.289mil|Location2.X=2240.539mil|Location1.Y=3310.305mil|Location2.Y=3321.555mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2229.289mil|Location2.X=2240.539mil|Location1.Y=3310.305mil|Location2.Y=3321.555mil|Absolute=True">Silk To Silk Clearance Constraint: (0.251mm &lt; 0.254mm) Between Text "IMU" (32.9mm,59.5mm) on Top Overlay And Track (32.845mm,59.099mm)(41.735mm,59.099mm) on Top Overlay Silk Text to Silk Clearance [0.251mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2224.69mil|Location2.X=2235.94mil|Location1.Y=1934.332mil|Location2.Y=1945.582mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2224.69mil|Location2.X=2235.94mil|Location1.Y=1934.332mil|Location2.Y=1945.582mil|Absolute=True">Silk To Silk Clearance Constraint: (0.15mm &lt; 0.254mm) Between Text "Mumble Mumble" (32.85mm,24.5mm) on Top Overlay And Text "Wave Wave" (32.85mm,23.75mm) on Top Overlay Silk Text to Silk Clearance [0.15mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1994.112mil|Location2.X=2005.362mil|Location1.Y=1609.792mil|Location2.Y=1621.042mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1994.112mil|Location2.X=2005.362mil|Location1.Y=1609.792mil|Location2.Y=1621.042mil|Absolute=True">Silk To Silk Clearance Constraint: (0.246mm &lt; 0.254mm) Between Text "SPI1" (26.967mm,16.3mm) on Top Overlay And Track (26.95mm,10.2mm)(26.95mm,15.95mm) on Top Overlay Silk Text to Silk Clearance [0.246mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2000.942mil|Location2.X=2012.192mil|Location1.Y=1609.8mil|Location2.Y=1621.05mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2000.942mil|Location2.X=2012.192mil|Location1.Y=1609.8mil|Location2.Y=1621.05mil|Absolute=True">Silk To Silk Clearance Constraint: (0.237mm &lt; 0.254mm) Between Text "SPI1" (26.967mm,16.3mm) on Top Overlay And Track (26.95mm,15.95mm)(41.85mm,15.95mm) on Top Overlay Silk Text to Silk Clearance [0.237mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3443.2mil|Location2.X=3454.45mil|Location1.Y=2041.886mil|Location2.Y=2053.136mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3443.2mil|Location2.X=3454.45mil|Location1.Y=2041.886mil|Location2.Y=2053.136mil|Absolute=True">Silk To Silk Clearance Constraint: (0.187mm &lt; 0.254mm) Between Text "ToF" (63.634mm,27.25mm) on Top Overlay And Track (51.15mm,26.95mm)(65.05mm,26.95mm) on Top Overlay Silk Text to Silk Clearance [0.187mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1163.669mil|Location2.X=1174.919mil|Location1.Y=1510.404mil|Location2.Y=1521.654mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\grant\Downloads\EECS 473 Droid Real1\EECS-473-Droid\PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1163.669mil|Location2.X=1174.919mil|Location1.Y=1510.404mil|Location2.Y=1521.654mil|Absolute=True">Silk To Silk Clearance Constraint: (0.203mm &lt; 0.254mm) Between Text "XBee Debug" (1.235mm,13.925mm) on Top Overlay And Track (1.201mm,13.442mm)(11.501mm,13.442mm) on Top Overlay Silk Text to Silk Clearance [0.203mm]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

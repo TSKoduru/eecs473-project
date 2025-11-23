@@ -1,0 +1,42 @@
+Removed Member From Class: ClassName=Schematic Member=SWD
+Change Component Footprint: Designator=R1 Old Footprint=RESC2012X60N New Footprint=RESC2012X50N
+Change Component Footprint: Designator=R2 Old Footprint=RESC2012X60N New Footprint=RESC2012X50N
+Change Component Comment : Designator=R1 Old Comment=3.3Ohm New Comment=91ohm
+Change Component Comment : Designator=R2 Old Comment=3.3Ohm New Comment=91ohm
+Change Component Designator: OldDesignator= NewDesignator=J?
+Change Component Designator: OldDesignator=ESC NewDesignator=J1
+Change Component Designator: OldDesignator=Extra NewDesignator=J13
+Change Component Designator: OldDesignator=I2C1 NewDesignator=J11
+Change Component Designator: OldDesignator=IMU NewDesignator=J9
+Change Component Designator: OldDesignator=NRST NewDesignator=J15
+Change Component Designator: OldDesignator=Power NewDesignator=J8
+Change Component Designator: OldDesignator=R3 NewDesignator=R4
+Change Component Designator: OldDesignator=SWD NewDesignator=J9
+Change Component Designator: OldDesignator=ToF NewDesignator=J6
+Change Component Designator: OldDesignator=UART4 NewDesignator=J14
+Change Component Designator: OldDesignator=XBee Debug NewDesignator=J7
+Change component parameters: Designator = "R1" ("R1"); Footprint = "RESC2012X60N"; UniqueID = "\BXBUJURH" ("\BXBUJURH")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "CRCW080591R0FKEA"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R2" ("R2"); Footprint = "RESC2012X60N"; UniqueID = "\KFRTVMAA" ("\KFRTVMAA")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "CRCW080591R0FKEA"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R3(RES_ERJ-6GEYJ431V)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Panasonic Electronic Components'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ERJ-6GEYJ431V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetD3_A Pin=R3-1
+Added Pin To Net: NetName=+5 Pin=R3-2
+Added Member To Class: ClassName=Schematic Member=Component J9 TMS-107-54-G-S
+Added Member To Class: ClassName=STM32 Member=Component R4 Res3

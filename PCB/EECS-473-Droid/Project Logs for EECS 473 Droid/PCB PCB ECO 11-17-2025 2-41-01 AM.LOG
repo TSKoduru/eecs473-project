@@ -1,0 +1,24 @@
+Removed Pin From Net: NetName=INT1 Pin=U1-53
+Removed Pin From Net: NetName=INT2 Pin=U1-60
+Added Component: Designator=SH1(HARWIN_M20-9990245)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Harwin"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "M20-9990245"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=SH2(HARWIN_M20-9990245)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Harwin"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "M20-9990245"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=INT2 Pin=SH1-2
+Added Pin To Net: NetName=INT1 Pin=SH2-2
+Added Pin To Net: NetName=NetSH1_1 Pin=SH1-1
+Added Pin To Net: NetName=NetSH1_1 Pin=U1-60
+Added Net: Name=NetSH1_1
+Added Pin To Net: NetName=NetSH2_1 Pin=SH2-1
+Added Pin To Net: NetName=NetSH2_1 Pin=U1-53
+Added Net: Name=NetSH2_1

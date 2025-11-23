@@ -1,0 +1,17 @@
+Change Component Footprint: Designator=J9 Old Footprint=MOLEX_35362-0450 New Footprint=HARWIN_M20-9990345
+Added Component: Designator=J15(SAMTEC_TS-101-X-A-1)
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS-101-G-A-1/Samtec+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Samtec Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS-101-G-A-1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS-101-G-A-1/Samtec+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Add component: Footprint Not Found RESC2012X60N
+Added Pin To Net: NetName=SWDIO Pin=J9-1
+Added Pin To Net: NetName=SWCLK Pin=J9-2
+Added Pin To Net: NetName=GND Pin=J9-3
+Added Pin To Net: NetName=NRST Pin=J15-01
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Added Member To Class: ClassName=STM32 Member=Component J15 TS-101-X-A-1
+Add Class Member: Failed to add class member : Component R? 3.3Ohm

@@ -1,0 +1,15 @@
+Change Component Designator: OldDesignator=5V NewDesignator=D3
+Added Component: Designator=D2(LED_MP-3014-1100-50-70)
+Add component (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Luminus Devices Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MP-3014-1100-50-70"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "NON-STANDARD-2 Luminus Devices Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search/part/MP-3014-1100-50-70/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetD2_A Pin=D2-A
+Added Pin To Net: NetName=GND Pin=D2-C
+Added Member To Class: ClassName=STM32 Member=Component D2 LED
+Added Member To Class: ClassName=STM32 Member=Component D3 LED

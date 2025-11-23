@@ -1,0 +1,8 @@
+Removed Pin From Net: NetName=GND Pin=3V3-1
+Removed Pin From Net: NetName=3V3 Pin=3V3-2
+Removed Pin From Net: NetName=+12 Pin=3V3-3
+Add component: Footprint Not Found SOT-223_DIO
+Add Pin To Net: Unknown Pin: Pin U2-1
+Add Pin To Net: Unknown Pin: Pin U2-2
+Add Pin To Net: Unknown Pin: Pin U2-3
+Add Pin To Net: Unknown Pin: Pin U2-4

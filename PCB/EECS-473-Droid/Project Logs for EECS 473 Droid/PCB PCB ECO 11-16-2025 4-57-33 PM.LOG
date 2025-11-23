@@ -1,0 +1,13 @@
+Removed Pin From Net: NetName=3V3 Pin=J14-01
+Removed Pin From Net: NetName=UART4_RX Pin=J14-02
+Removed Pin From Net: NetName=UART4_TX Pin=J14-03
+Removed Pin From Net: NetName=GND Pin=J14-04
+Add component: Footprint Not Found RESC2012X60N
+Added Pin To Net: NetName=GND Pin=J14-01
+Added Pin To Net: NetName=UART4_TX Pin=J14-02
+Added Pin To Net: NetName=UART4_RX Pin=J14-03
+Added Pin To Net: NetName=3V3 Pin=J14-04
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Add Class Member: Failed to add class member : Component R? 3.3Ohm
+Added Member To Class: ClassName=Schematic Member=Component XBEE XB24-Z7WIT-004

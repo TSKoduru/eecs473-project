@@ -1,0 +1,38 @@
+Removed Pin From Net: NetName=SWDIO Pin=J9-01
+Removed Pin From Net: NetName=SWCLK Pin=J9-02
+Removed Pin From Net: NetName=GND Pin=J9-03
+Removed Pin From Net: NetName=NRST Pin=J9-04
+Removed Pin From Net: NetName=CSB_GYRO Pin=U1-53
+Removed Pin From Net: NetName=I2C4_SCL Pin=U1-58
+Removed Pin From Net: NetName=I2C4_SDA Pin=U1-59
+Change Footprint: Footprint Not Found HARWIN_M20-9990345
+Change Component Comment : Designator=J9 Old Comment=35362-0450 New Comment=M20-9990345
+Change Component Designator: OldDesignator= NewDesignator=J10
+Change Component Designator: OldDesignator= NewDesignator=J?
+Change component parameters: Designator = "J9" ("J9"); Footprint = "MOLEX_35362-0450"; UniqueID = "\GDYVESZQ" ("\GDYVESZQ")
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/M20-9990345/Harwin+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Harwin"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "M20-9990345"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/M20-9990345/Harwin+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Add component: Footprint Not Found SAMTEC_TS-101-X-A-1
+Add component: Footprint Not Found RESC2012X60N
+Add Pin To Net: Unknown Pin: Pin J9-1
+Add Pin To Net: Unknown Pin: Pin J9-2
+Add Pin To Net: Unknown Pin: Pin J9-3
+Add Pin To Net: Unknown Pin: Pin J15-01
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Added Pin To Net: NetName=CSB_GYRO Pin=U1-58
+Added Pin To Net: NetName=I2C1_SCL Pin=U1-61
+Added Net: Name=I2C1_SCL
+Added Pin To Net: NetName=I2C1_SDA Pin=U1-59
+Added Net: Name=I2C1_SDA
+Added Pin To Net: NetName=INT1 Pin=U1-53
+Added Net: Name=INT1
+Added Pin To Net: NetName=INT2 Pin=U1-60
+Added Net: Name=INT2
+Add Class Member: Failed to add class member : Component J15 TS-101-X-A-1
+Added Member To Class: ClassName=Schematic Member=Component J?
+Add Class Member: Failed to add class member : Component R? 3.3Ohm

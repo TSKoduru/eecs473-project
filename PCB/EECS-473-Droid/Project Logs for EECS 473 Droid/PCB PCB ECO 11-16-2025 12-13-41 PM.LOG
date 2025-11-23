@@ -1,0 +1,141 @@
+Removed Pin From Net: NetName=GND Pin=D1-4
+Removed Pin From Net: NetName=GND Pin=D2-4
+Removed Pin From Net: NetName=SWDIO Pin=J4-1
+Removed Pin From Net: NetName=SWCLK Pin=J4-2
+Removed Pin From Net: NetName=GND Pin=J4-3
+Removed Member From Class: ClassName=STM32 Member=J4
+Change Component Footprint: Designator=C3 Old Footprint=CAPC2012X145N New Footprint=CAPC2012X152N
+Change Component Footprint: Designator=C4 Old Footprint=CAPC2012X145N New Footprint=CAPC2012X152N
+Change Component Footprint: Designator=D1 Old Footprint=SOJ150P350X210-4N New Footprint=LED_MP-3014-1100-50-70
+Change Component Footprint: Designator=D2 Old Footprint=SOJ150P350X210-4N New Footprint=LED_MP-3014-1100-50-70
+Change Component Comment : Designator=SW? Old Comment=2-1977223-2 New Comment=
+Change Component Comment : Designator=C3 Old Comment=4.7uF New Comment=10uF
+Change Component Comment : Designator=C4 Old Comment=4.7uF New Comment=10uF
+Change Component Comment : Designator=U2 Old Comment=AP2114H-3.3TRG1 New Comment=LM1117MPX-33NOPB
+Change Component Comment : Designator=D1 Old Comment=LED New Comment=
+Change Component Designator: OldDesignator=SW? NewDesignator=SW
+Change component parameters: Designator = "C3" ("C3"); Footprint = "CAPC2012X145N"; UniqueID = "\CQCXQKNW" ("\CQCXQKNW")
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/0805ZC106KAT4A/AVX/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "AVX / Kyocera"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "0805ZC106KAT4A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "2012 AVX"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/0805ZC106KAT4A/AVX/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "C4" ("C4"); Footprint = "CAPC2012X145N"; UniqueID = "\SISTZFNG" ("\SISTZFNG")
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/0805ZC106KAT4A/AVX/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "AVX / Kyocera"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "0805ZC106KAT4A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "2012 AVX"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/0805ZC106KAT4A/AVX/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "D1" ("D1"); Footprint = "SOJ150P350X210-4N"; UniqueID = "\UPAZEWDT" ("\UPAZEWDT")
+Change component parameters (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Luminus Devices Inc."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "MP-3014-1100-50-70"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "NON-STANDARD-2 Luminus Devices Inc."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search/part/MP-3014-1100-50-70/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "D2" ("D2"); Footprint = "SOJ150P350X210-4N"; UniqueID = "\KKEKBZMF" ("\KKEKBZMF")
+Change component parameters (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Luminus Devices Inc."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "MP-3014-1100-50-70"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "NON-STANDARD-2 Luminus Devices Inc."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search/part/MP-3014-1100-50-70/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D3(LED_MP-3014-1100-50-70)
+Add component (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Luminus Devices Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MP-3014-1100-50-70"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "NON-STANDARD-2 Luminus Devices Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search/part/MP-3014-1100-50-70/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MP-3014-1100-50-70/Luminus+Devices+Inc./view-part/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J9(MOLEX_35362-0450)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Molex'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "35362-0450"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J?(CONN_929870-01-10-RA_3MM)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2025 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "3M"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "929870-01-10-RA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Added Component: Designator=J?(61300611821)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'W\xfcrth Elektronik'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "61300611821"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J?(CONN_929870-01-10-RA_3MM)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2025 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "3M"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "929870-01-10-RA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component: Footprint Not Found RESC2012X60N
+Added Component: Designator=XBee(DIP-20)
+Add component (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/XB24CDMPIT-001/Digi+International/view-part/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Digi International"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "XB24CDMPIT-001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "Module Digi International"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search?q=XB24CDMPIT-001&ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/XB24CDMPIT-001/Digi+International/view-part/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=D1-C
+Added Pin To Net: NetName=GND Pin=D2-C
+Added Pin To Net: NetName=GND Pin=D3-C
+Added Pin To Net: NetName=SWDIO Pin=J9-01
+Added Pin To Net: NetName=SWCLK Pin=J9-02
+Added Pin To Net: NetName=GND Pin=J9-03
+Added Pin To Net: NetName=NetC20_2 Pin=J9-04
+Added Pin To Net: NetName=3V3 Pin=J?-1
+Added Pin To Net: NetName=3V3 Pin=J?-1
+Added Pin To Net: NetName=CSB_ACCEL Pin=J?-1
+Added Pin To Net: NetName=3V3 Pin=J?-2
+Added Pin To Net: NetName=GND Pin=J?-2
+Added Pin To Net: NetName=SPI1_SCK Pin=J?-2
+Added Pin To Net: NetName=GND Pin=J?-3
+Added Pin To Net: NetName=SCL Pin=J?-3
+Added Pin To Net: NetName=SPI1_MISO Pin=J?-3
+Added Pin To Net: NetName=SDA Pin=J?-4
+Added Pin To Net: NetName=SPI1_MOSI Pin=J?-4
+Added Pin To Net: NetName=CSB_GYRO Pin=J?-5
+Added Pin To Net: NetName=ToFINT2 Pin=J?-5
+Added Pin To Net: NetName=GND Pin=J?-6
+Added Pin To Net: NetName=XSHUT2 Pin=J?-6
+Added Pin To Net: NetName=GND Pin=J?-9
+Add Pin To Net: Unknown Pin: Pin R?-2
+Added Pin To Net: NetName=3V3 Pin=XBee-1
+Added Pin To Net: NetName=LPUART1_RX Pin=XBee-2
+Added Pin To Net: NetName=LPUART1_TX Pin=XBee-3
+Added Pin To Net: NetName=GND Pin=XBee-10
+Change Net Name : Old Net Name=NetC20_2 New Net Name=NRST
+Added Pin To Net: NetName=NetD1_A Pin=D1-A
+Added Pin To Net: NetName=NetD1_A Pin=R2-1
+Added Net: Name=NetD1_A
+Added Pin To Net: NetName=NetD2_A Pin=D2-A
+Added Pin To Net: NetName=NetD2_A Pin=R1-1
+Added Net: Name=NetD2_A
+Added Pin To Net: NetName=NetD3_A Pin=D3-A
+Added Net: Name=NetD3_A
+Added Member To Class: ClassName=STM32 Member=Component D3 LED
+Added Member To Class: ClassName=STM32 Member=Component J9 35362-0450
+Added Member To Class: ClassName=Schematic Member=Component J? 929870-01-10-RA
+Added Member To Class: ClassName=Schematic Member=Component J?
+Added Member To Class: ClassName=Schematic Member=Component J? 929870-01-10-RA
+Add Class Member: Failed to add class member : Component R? 3.3Ohm
+Added Member To Class: ClassName=Schematic Member=Component XBee XB24CDMPIT-001

@@ -1,0 +1,83 @@
+Remove Pin from Net: Unknown Pin: Pin POWER-2
+Removed Pin From Net: NetName=GND Pin=SWCLK-2
+Removed Member From Class: ClassName=Schematic Member=POWER
+Removed Member From Class: ClassName=STM32 Member=POWER
+Removed Member From Class: ClassName=STM32 Member=SWCLK
+Change Component Footprint: Designator=C20 Old Footprint=C1206 New Footprint=CAPC1608X90N
+Change Component Footprint: Designator=R1 Old Footprint=J1-0603 New Footprint=RESC2012X60N
+Change Component Footprint: Designator=R2 Old Footprint=J1-0603 New Footprint=RESC2012X60N
+Change Component Comment : Designator=C20 Old Comment=Cap Semi New Comment=100nF
+Change Component Comment : Designator=R1 Old Comment=Res3 New Comment=3.3Ohm
+Change Component Comment : Designator=R2 Old Comment=Res3 New Comment=3.3Ohm
+Change Component Designator: OldDesignator=ESC NewDesignator=J1
+Change Component Designator: OldDesignator=EXTRA NewDesignator=J9
+Change Component Designator: OldDesignator=IMU NewDesignator=U4
+Change Component Designator: OldDesignator=LDO1 NewDesignator=U2
+Change Component Designator: OldDesignator=LDO2 NewDesignator=VR1
+Change Component Designator: OldDesignator=POWER NewDesignator=J8
+Change Component Designator: OldDesignator=RESET NewDesignator=SW?
+Change Component Designator: OldDesignator=SWD NewDesignator=J4
+Change Component Designator: OldDesignator=ToF2 NewDesignator=J6
+Change Component Designator: OldDesignator=ToF NewDesignator=U6
+Change Component Designator: OldDesignator=XBEE NewDesignator=J7
+Change component parameters: Designator = "C20" ("C20"); Footprint = "C1206"; UniqueID = "\XUTWMYWE" ("\XUTWMYWE")
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/06035C104K4T2A/AVX/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "AVX"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "06035C104K4T2A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "1608 AVX"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/06035C104K4T2A/AVX/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R1" ("R1"); Footprint = "J1-0603"; UniqueID = "\HVXQVYUK" ("\HVXQVYUK")
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/RC0805JR073R3L/Yageo/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Yageo Corporation"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "RC0805JR073R3L"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805-2 YAGEO"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/RC0805JR073R3L/Yageo/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R2" ("R2"); Footprint = "J1-0603"; UniqueID = "\BSNPXKFQ" ("\BSNPXKFQ")
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/RC0805JR073R3L/Yageo/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Yageo Corporation"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "RC0805JR073R3L"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805-2 YAGEO"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/RC0805JR073R3L/Yageo/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R3" ("R3"); Footprint = "J1-0603"; UniqueID = "\REEVYBYA" ("\REEVYBYA")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "29-May-2009"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "IPC-7351 Footprint Added."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageDescription"; Value = "Chip Resistor"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageReference"; Value = "J1-0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Published"; Value = "8-Jun-2000"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10K"; VariantName = "[No Variations]"
+Added Component: Designator=D1(SOJ150P350X210-4N)
+Add component (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=334773"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Cree Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=334773"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CLA1B-WKW-XE0F0DT3"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "PLCC-4 Cree"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/CLA1B-WKW-XE0F0DT3/Cree%20Inc./view-part/334773/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D2(SOJ150P350X210-4N)
+Add component (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=334773"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Cree Inc."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=334773"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CLA1B-WKW-XE0F0DT3"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "PLCC-4 Cree"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/CLA1B-WKW-XE0F0DT3/Cree%20Inc./view-part/334773/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=D1-4
+Added Pin To Net: NetName=GND Pin=D2-4
+Added Pin To Net: NetName=NetD1_2 Pin=D1-2
+Added Pin To Net: NetName=NetD1_2 Pin=R1-1
+Added Net: Name=NetD1_2
+Added Pin To Net: NetName=NetD2_2 Pin=D2-2
+Added Pin To Net: NetName=NetD2_2 Pin=R2-1
+Added Net: Name=NetD2_2
+Added Member To Class: ClassName=STM32 Member=Component D1 LED
+Added Member To Class: ClassName=STM32 Member=Component D2 LED
+Added Member To Class: ClassName=Schematic Member=Component J8 35362-0450
+Added Member To Class: ClassName=Schematic Member=Component U6 VL53L1CXV0FY/1

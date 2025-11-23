@@ -1,0 +1,14 @@
+Remove Pin from Net: Unknown Pin: Pin 3V3-1
+Remove Pin from Net: Unknown Pin: Pin 3V3-2
+Remove Pin from Net: Unknown Pin: Pin 3V3-3
+Remove Pin from Net: Unknown Pin: Pin 3V3-4
+Removed Member From Class: ClassName=STM32 Member=IMU
+Added Component: Designator=U?(SOT223-318H_OSI)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2025 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "onsemi"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "LM1117MPX-33NOPB"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=3V3 Pin=U?-2
+Added Pin To Net: NetName=+12 Pin=U?-3

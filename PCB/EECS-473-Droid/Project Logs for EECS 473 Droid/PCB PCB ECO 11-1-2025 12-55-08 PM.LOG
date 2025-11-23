@@ -1,0 +1,11 @@
+Removed Pin From Net: NetName=Servo1 Pin=U1-21
+Removed Pin From Net: NetName=Servo2 Pin=U1-22
+Removed Pin From Net: NetName=ToFINT1 Pin=U1-35
+Removed Pin From Net: NetName=SCL Pin=U1-37
+Removed Pin From Net: NetName=SDA Pin=U1-38
+Added Pin To Net: NetName=SCL Pin=U1-34
+Added Pin To Net: NetName=SDA Pin=U1-35
+Added Pin To Net: NetName=ToFINT1 Pin=U1-37
+Added Pin To Net: NetName=Servo1 Pin=U1-41
+Added Pin To Net: NetName=Servo2 Pin=U1-42
+Added Member To Class: ClassName=Schematic Member=Component U6 VL53L1CXV0FY/1

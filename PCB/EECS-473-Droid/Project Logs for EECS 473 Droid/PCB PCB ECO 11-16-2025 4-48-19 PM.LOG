@@ -1,0 +1,12 @@
+Change Component Comment : Designator=XBee Old Comment=XB24CDMPIT-001 New Comment=XB24-Z7WIT-004
+Change component parameters: Designator = "XBee" ("XBEE"); Footprint = "DIP-20"; UniqueID = "\MJCUVYWW" ("\MJCUVYWW")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "XB24-Z7WIT-004"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Add component: Footprint Not Found RESC2012X60N
+Add Pin To Net: Unknown Pin: Pin R?-1
+Add Pin To Net: Unknown Pin: Pin R?-2
+Add Class Member: Failed to add class member : Component R? 3.3Ohm
