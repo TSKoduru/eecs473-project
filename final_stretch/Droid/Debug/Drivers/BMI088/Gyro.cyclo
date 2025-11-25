@@ -1,0 +1,16 @@
+../Drivers/BMI088/Gyro.c:67:6:GYRO_INIT	1
+../Drivers/BMI088/Gyro.c:73:6:GYRO_GOOD_SETTINGS	1
+../Drivers/BMI088/Gyro.c:82:9:GYRO_READ_ID	1
+../Drivers/BMI088/Gyro.c:92:9:GYRO_READ_RATES	1
+../Drivers/BMI088/Gyro.c:101:6:GYRO_RELOAD_SETTINGS	1
+../Drivers/BMI088/Gyro.c:111:9:GYRO_SELF_TEST	4
+../Drivers/BMI088/Gyro.c:134:16:GYRO_READ_FIFO	8
+../Drivers/BMI088/Gyro.c:160:6:GYRO_SET_POWERMODE	1
+../Drivers/BMI088/Gyro.c:165:6:GYRO_SET_RANGE	1
+../Drivers/BMI088/Gyro.c:171:6:GYRO_SET_OUPUT_DATA_RATE	1
+../Drivers/BMI088/Gyro.c:176:6:GYRO_SET_FIFO_MODE	1
+../Drivers/BMI088/Gyro.c:183:13:select	1
+../Drivers/BMI088/Gyro.c:187:13:unselect	1
+../Drivers/BMI088/Gyro.c:191:13:readAddr	1
+../Drivers/BMI088/Gyro.c:198:13:writeAddr	1
+../Drivers/BMI088/Gyro.c:204:16:parseRawUInts	6
