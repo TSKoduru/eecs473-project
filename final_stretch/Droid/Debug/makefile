@@ -65,8 +65,8 @@ all: main-build
 main-build: Droid.elf secondary-outputs
 
 # Tool invocations
-Droid.elf Droid.map: $(OBJS) $(USER_OBJS) C:\Users\Cindy\Downloads\Droid\Droid\STM32U545RETXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Droid.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\Cindy\Downloads\Droid\Droid\STM32U545RETXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="Droid.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Droid.elf Droid.map: $(OBJS) $(USER_OBJS) C:\Users\arlee\Downloads\DroidV1\DroidV1\STM32U545RETXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Droid.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\arlee\Downloads\DroidV1\DroidV1\STM32U545RETXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="Droid.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
