@@ -1,0 +1,4 @@
+../Drivers/BMI088/IMU.c:7:6:IMU_INIT	16	static
+../Drivers/BMI088/IMU.c:12:6:IMU_SETUP_FOR_LOGGING	8	static
+../Drivers/BMI088/IMU.c:17:6:IMU_ENABLE_ALL	8	static
+../Drivers/BMI088/IMU.c:24:5:IMU_READY	16	static
