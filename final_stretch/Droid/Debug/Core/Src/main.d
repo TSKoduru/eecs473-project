@@ -34,13 +34,13 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Src/../../Drivers/BSP/Components/vl53l1x_uld/VL53L1X_api.h \
  ../Core/Inc/vl53l1_platform.h ../Core/Inc/vl53l1_types.h \
  ../Core/Src/../../Drivers/BSP/Components/vl53l1x_uld/VL53L1X_calibration.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Accel.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Vectors.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Gyro.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/IMU.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Accel.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Gyro.h \
- C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Vectors.h
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Accel.h \
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Vectors.h \
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Gyro.h \
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/IMU.h \
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Accel.h \
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Gyro.h \
+ C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Vectors.h
 ../Core/Inc/main.h:
 ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal.h:
 ../Core/Inc/stm32u5xx_hal_conf.h:
@@ -78,10 +78,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/vl53l1_platform.h:
 ../Core/Inc/vl53l1_types.h:
 ../Core/Src/../../Drivers/BSP/Components/vl53l1x_uld/VL53L1X_calibration.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Accel.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Vectors.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Gyro.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/IMU.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Accel.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Gyro.h:
-C:/Users/Cindy/Downloads/Droid/Droid/Drivers/BMI088/Vectors.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Accel.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Vectors.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Gyro.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/IMU.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Accel.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Gyro.h:
+C:/Users/arlee/Downloads/DroidV1/DroidV1/Drivers/BMI088/Vectors.h:

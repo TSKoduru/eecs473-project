@@ -77,10 +77,11 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
-// TODO: update distance sensor to use custom address
-uint16_t dev = 0x52;
+uint16_t distance2_address = 0x52; // surface mounted distance sensor
+uint16_t distance1_address = (0x30 << 1); // external distance sensor
 int status = 0;
 const int max_CCR = 20000;
+
 uint8_t xb[3];
 float KP = 2.0;
 float KI = 0.0;
@@ -175,6 +176,46 @@ void TIM_SetPWM(float m1, float m2, float m3, float m4) {
 /* USER CODE BEGIN 0 */
 uint8_t err[] = { 'e', 'r', 'r', 'o', 'r', '\n', '\r' };
 
+/* Those basic I2C read functions can be used to check your own I2C functions */
+void print_distance_sensor_metadata(uint16_t dev_address) {
+	uint8_t byteData;
+	uint16_t wordData;
+	status = VL53L1_RdByte(dev_address, 0x010F, &byteData);
+	printf("VL53L1X Model_ID: %X\n", byteData);
+	status = VL53L1_RdByte(dev_address, 0x0110, &byteData);
+	printf("VL53L1X Module_Type: %X\n", byteData);
+	status = VL53L1_RdWord(dev_address, 0x010F, &wordData);
+	printf("VL53L1X: %X\n", wordData);
+}
+
+void start_distance_sensor(uint16_t dev_address) {
+	uint8_t sensorState = 0;
+	while (sensorState == 0) {
+		status = VL53L1X_BootState(dev_address, &sensorState);
+		HAL_Delay(2);
+	}
+	printf("Distance sensor with address %d booted\n", dev_address);
+
+	/* This function must to be called to initialize the sensor with the default setting  */
+	status = VL53L1X_SensorInit(dev_address);
+	/* Optional functions to be used to change the main ranging parameters according the application requirements to get the best ranging performances */
+	status = VL53L1X_SetDistanceMode(dev_address, 2); /* 1=short, 2=long */
+	status = VL53L1X_SetTimingBudgetInMs(dev_address, 100); /* in ms possible values [20, 50, 100, 200, 500] */
+	status = VL53L1X_SetInterMeasurementInMs(dev_address, 100); /* in ms, IM must be > = TB */
+	status = VL53L1X_SetInterruptPolarity(dev_address, 0); //This function programs the interrupt polarity, 1 = active high (default), 0 = active low.
+	//  status = VL53L1X_SetOffset(dev_address,20); /* offset compensation in mm */
+	//  status = VL53L1X_SetROI(dev_address, 16, 16); /* minimum ROI 4,4 */
+
+	//	status = VL53L1X_CalibrateOffset(dev_address, 140, &offset); /* may take few second to perform the offset cal*/
+	//  printf("VL53L1X_CalibrateOffset=%d\n", offset);
+	//  status = VL53L1X_CalibrateXtalk(dev_address, 1000, &xtalk); /* may take few second to perform the xtalk cal */
+	//  printf("VL53L1X_CalibrateXtalk=%d\n", xtalk/512);
+	printf("VL53L1X Ultra Lite Driver Example running ...\n");
+
+	status = VL53L1X_StartRanging(dev_address); /* This function has to be called to enable the ranging */
+//	END OF DISTANCE SENSOR SETUP
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -184,15 +225,7 @@ uint8_t err[] = { 'e', 'r', 'r', 'o', 'r', '\n', '\r' };
 int main(void) {
 
 	/* USER CODE BEGIN 1 */
-	uint8_t byteData;
-	uint16_t wordData;
-	uint8_t ToFSensor = 0; // 0=Left, 1=Center(default), 2=Right
-
-	uint8_t sensorState = 0;
 	uint16_t Distance;
-	uint16_t SignalRate;
-	uint16_t AmbientRate;
-	uint16_t SpadNum;
 	uint8_t RangeStatus;
 	uint8_t dataReady = 0;
 	uint16_t timeout_counter = 0;
@@ -223,25 +256,27 @@ int main(void) {
 	MX_SPI3_Init();
 	MX_TIM3_Init();
 	MX_TIM5_Init();
+
 	/* USER CODE BEGIN 2 */
-	//  Arm the ESC (first send the low signal then the high signal)
-	    __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1, max_CCR * 0.05);
-	    __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_2, max_CCR * 0.05);
-	    __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_3, max_CCR * 0.05);
-	    __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_4, max_CCR * 0.05);
 
-	    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);
-	    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_2);
-	    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);
-	    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
+	//  Setup the servos
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, max_CCR * 0.03);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, max_CCR * 0.03);
 
-	// Setup the Servos
-	    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, max_CCR * 0.03);
-	    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, max_CCR * 0.03);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 
-	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
-	    HAL_Delay(5000);
+	// Arm the ESC (send low signal)
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1, max_CCR * 0.05);
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_2, max_CCR * 0.05);
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_3, max_CCR * 0.05);
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_4, max_CCR * 0.05);
+
+	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
+	HAL_Delay(5000);
 
 //	START OF IMU SETUP
 	IMU_INIT(&hspi3);
@@ -253,7 +288,7 @@ int main(void) {
 	int imuready = IMU_READY();
 	while (imuready != 1) {
 		imuready = IMU_READY();
-		// HAL_UART_Transmit(&hlpuart1, err, 7, 1000);
+//		HAL_UART_Transmit(&hlpuart1, err, 7, 1000);
 		HAL_Delay(5000);
 	}
 
@@ -303,50 +338,15 @@ int main(void) {
 //  END OF IMU SETUP
 
 //	  START OF DISTANCE SENSOR SETUP
-//  ToFSensor = 1; // Select ToFSensor: 0=Left, 1=Center, 2=Right
-//  status = XNUCLEO53L1A1_ResetId(ToFSensor, 0); // Reset ToF sensor
-//  HAL_Delay(2);
-//  status = XNUCLEO53L1A1_ResetId(ToFSensor, 1); // Reset ToF sensor
-//  HAL_Delay(2);
-
-//    NOTE: these pins have been configured in the IOC to be high by default and have pull up resistor configured to it
-//    Start up the distance sensor
-//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
-	//	TODO: Setup the other sensor, but use the default device address
+//    Start up the external distance sensor with a different I2C address
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
+	status = VL53L1_WrByte(0x52, 0x0001, 0x30);
+	//	start up secondary/surface mounted distance sensor with the default I2C address
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-
-	/* Those basic I2C read functions can be used to check your own I2C functions */
-//	status = VL53L1_RdByte(dev, 0x010F, &byteData);
-//	printf("VL53L1X Model_ID: %X\n", byteData);
-//	status = VL53L1_RdByte(dev, 0x0110, &byteData);
-//	printf("VL53L1X Module_Type: %X\n", byteData);
-//	status = VL53L1_RdWord(dev, 0x010F, &wordData);
-//	printf("VL53L1X: %X\n", wordData);
-//
-//	while (sensorState == 0) {
-//		status = VL53L1X_BootState(dev, &sensorState);
-//		HAL_Delay(2);
-//	}
-//	printf("Chip booted\n");
-//	/* This function must to be called to initialize the sensor with the default setting  */
-//	status = VL53L1X_SensorInit(dev);
-//	/* Optional functions to be used to change the main ranging parameters according the application requirements to get the best ranging performances */
-//	status = VL53L1X_SetDistanceMode(dev, 2); /* 1=short, 2=long */
-//	status = VL53L1X_SetTimingBudgetInMs(dev, 100); /* in ms possible values [20, 50, 100, 200, 500] */
-//	status = VL53L1X_SetInterMeasurementInMs(dev, 100); /* in ms, IM must be > = TB */
-//	status = VL53L1X_SetInterruptPolarity(dev, 0); //This function programs the interrupt polarity, 1 = active high (default), 0 = active low.
-//	//  status = VL53L1X_SetOffset(dev,20); /* offset compensation in mm */
-//	//  status = VL53L1X_SetROI(dev, 16, 16); /* minimum ROI 4,4 */
-//
-//	//	status = VL53L1X_CalibrateOffset(dev, 140, &offset); /* may take few second to perform the offset cal*/
-//	//  printf("VL53L1X_CalibrateOffset=%d\n", offset);
-//	//  status = VL53L1X_CalibrateXtalk(dev, 1000, &xtalk); /* may take few second to perform the xtalk cal */
-//	//  printf("VL53L1X_CalibrateXtalk=%d\n", xtalk/512);
-//	printf("VL53L1X Ultra Lite Driver Example running ...\n");
-//
-//	status = VL53L1X_StartRanging(dev); /* This function has to be called to enable the ranging */
-//	END OF DISTANCE SENSOR SETUP
-
+//	print_distance_sensor_metadata(distance1_address);
+//	print_distance_sensor_metadata(distance2_address);
+	start_distance_sensor(distance1_address);
+	start_distance_sensor(distance2_address);
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -355,103 +355,105 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
+		uint32_t now = HAL_GetTick();
 
-//		uint32_t now = HAL_GetTick();
-//		if (recalibrate) {
-//			xyz_ground.x = 0;
-//			xyz_ground.y = 0;
-//			xyz_ground.z = 0;
-//			for (int i = 0; i < 5; i++) {
-//				xyz_a = ACCEL_READ_ACCELERATION();
-//				xyz_ground.x += xyz_a.x / 5.0f;
-//				xyz_ground.y += xyz_a.y / 5.0f;
-//				xyz_ground.z += xyz_a.z / 5.0f;
-//				HAL_Delay(5);
-//			}
-//			recalibrate = 0;
-//		}
-//		//		START OF DISTANCE SENSOR READ
-////		if ((now - lastDist) >= 1000) {
-////			lastDist = now;
-////			while (dataReady == 0) {
-////
-////				status = VL53L1X_CheckForDataReady(dev, &dataReady);
-////				timeout_counter++;
-////				if (timeout_counter >= 1000) {
-////					status = (uint8_t) VL53L1X_ERROR_TIMEOUT;
-////					//			  printf("No data ready for long time, please check your system\n");
-////					char buffer[3] = { 'e', 'r', '\n' };
-////					HAL_UART_Transmit(&hlpuart1, &buffer, 3, 0xFFFF);
-////					timeout_counter = 0;
-////				}
-////				status = VL53L1_WaitMs(dev, 1);
-////			}
-////			dataReady = 0;
-////			timeout_counter = 0;
-////
-////			status = VL53L1X_GetRangeStatus(dev, &RangeStatus);
-////			status = VL53L1X_GetDistance(dev, &Distance);
-////			status = VL53L1X_GetSignalRate(dev, &SignalRate);
-////			status = VL53L1X_GetAmbientRate(dev, &AmbientRate);
-////			status = VL53L1X_GetSpadNb(dev, &SpadNum);
-////			status = VL53L1X_ClearInterrupt(dev); /* clear interrupt has to be called to enable next interrupt*/
-////			uint8_t dist[3] = { 'A', (Distance >> 8), Distance & 0xFF };
-////			// char dist[50];
-////			// sprintf(dist, "A, %u \n",Distance);
-////			//		printf("Range status: %u, Distance: %u mm\n", RangeStatus, Distance);
-////			// HAL_UART_Transmit(&hlpuart1, dist, strlen(dist), 0xFFFF);
-////			HAL_UART_Transmit(&hlpuart1, dist, 3, 0xFFFF);
-////		}
-//		//		END OF DISTANCE SENSOR READ
-//
-//		//		START OF IMU READ
-//		float dt = (now - lastIMU) / 1000.0f;
-//		lastIMU = now;
-//
-//		// Read sensor data
-//		xyz_a = ACCEL_READ_ACCELERATION();
-//
-//		// Remove ground reference bias
-//		xyz_a = vSub(xyz_a, xyz_ground);
-//
-//		// Apply deadzone to accelerations (in droid frame)
-//		float accel_x = applyAccelDeadzone(xyz_a.x, ACCEL_DEADZONE);
-//		float accel_y = applyAccelDeadzone(xyz_a.y, ACCEL_DEADZONE);
-//
-//		// Accumulate error for integral term
-//		error_x += accel_x * dt;
-//		error_y += accel_y * dt;
-//
-//		// Calculate derivative of acceleration (jerk)
-//		float accel_dot_x = (accel_x - prev_accel_x) / dt;
-//		float accel_dot_y = (accel_y - prev_accel_y) / dt;
-//		prev_accel_x = accel_x;
-//		prev_accel_y = accel_y;
-//
-//		// PID control: directly counteract acceleration in droid frame
-//		// Negative sign because we want to oppose the acceleration
-//		Fx_d = -(KP * accel_x + KI * error_x + KD * accel_dot_x);
-//		Fy_d = -(KP * accel_y + KI * error_y + KD * accel_dot_y);
-//
-//		// Clamp forces to maximum
-//		float F_total = sqrtf(Fx_d * Fx_d + Fy_d * Fy_d);
-//		if (F_total > MAX_FORCE) {
-//			float scale = MAX_FORCE / F_total;
-//			Fx_d *= scale;
-//			Fy_d *= scale;
-//		}
-//
-//		// Assign motor values and set PWM
-//		assignMotorValues(Fx_d, Fy_d, &m1, &m2, &m3, &m4);
-//		TIM_SetPWM(m1, m2, m3, m4);
-//
-//		//		END OF IMU READ
-//
-//		HAL_Delay(5);
+		//		uint32_t now = HAL_GetTick();
+		//		if (recalibrate) {
+		//			xyz_ground.x = 0;
+		//			xyz_ground.y = 0;
+		//			xyz_ground.z = 0;
+		//			for (int i = 0; i < 5; i++) {
+		//				xyz_a = ACCEL_READ_ACCELERATION();
+		//				xyz_ground.x += xyz_a.x / 5.0f;
+		//				xyz_ground.y += xyz_a.y / 5.0f;
+		//				xyz_ground.z += xyz_a.z / 5.0f;
+		//				HAL_Delay(5);
+		//			}
+		//			recalibrate = 0;
+		//		}
+		//		//		START OF DISTANCE SENSOR READ
+		////		if ((now - lastDist) >= 1000) {
+		////			lastDist = now;
+		////			while (dataReady == 0) {
+		////
+		////				status = VL53L1X_CheckForDataReady(dev, &dataReady);
+		////				timeout_counter++;
+		////				if (timeout_counter >= 1000) {
+		////					status = (uint8_t) VL53L1X_ERROR_TIMEOUT;
+		////					//			  printf("No data ready for long time, please check your system\n");
+		////					char buffer[3] = { 'e', 'r', '\n' };
+		////					HAL_UART_Transmit(&hlpuart1, &buffer, 3, 0xFFFF);
+		////					timeout_counter = 0;
+		////				}
+		////				status = VL53L1_WaitMs(dev, 1);
+		////			}
+		////			dataReady = 0;
+		////			timeout_counter = 0;
+		////
+		////			status = VL53L1X_GetRangeStatus(dev, &RangeStatus);
+		////			status = VL53L1X_GetDistance(dev, &Distance);
+		////			status = VL53L1X_GetSignalRate(dev, &SignalRate);
+		////			status = VL53L1X_GetAmbientRate(dev, &AmbientRate);
+		////			status = VL53L1X_GetSpadNb(dev, &SpadNum);
+		////			status = VL53L1X_ClearInterrupt(dev); /* clear interrupt has to be called to enable next interrupt*/
+		////			uint8_t dist[3] = { 'A', (Distance >> 8), Distance & 0xFF };
+		////			// char dist[50];
+		////			// sprintf(dist, "A, %u \n",Distance);
+		////			//		printf("Range status: %u, Distance: %u mm\n", RangeStatus, Distance);
+		////			// HAL_UART_Transmit(&hlpuart1, dist, strlen(dist), 0xFFFF);
+		////			HAL_UART_Transmit(&hlpuart1, dist, 3, 0xFFFF);
+		////		}
+		//		//		END OF DISTANCE SENSOR READ
+		//
+		//		//		START OF IMU READ
+		//		float dt = (now - lastIMU) / 1000.0f;
+		//		lastIMU = now;
+		//
+		//		// Read sensor data
+		//		xyz_a = ACCEL_READ_ACCELERATION();
+		//
+		//		// Remove ground reference bias
+		//		xyz_a = vSub(xyz_a, xyz_ground);
+		//
+		//		// Apply deadzone to accelerations (in droid frame)
+		//		float accel_x = applyAccelDeadzone(xyz_a.x, ACCEL_DEADZONE);
+		//		float accel_y = applyAccelDeadzone(xyz_a.y, ACCEL_DEADZONE);
+		//
+		//		// Accumulate error for integral term
+		//		error_x += accel_x * dt;
+		//		error_y += accel_y * dt;
+		//
+		//		// Calculate derivative of acceleration (jerk)
+		//		float accel_dot_x = (accel_x - prev_accel_x) / dt;
+		//		float accel_dot_y = (accel_y - prev_accel_y) / dt;
+		//		prev_accel_x = accel_x;
+		//		prev_accel_y = accel_y;
+		//
+		//		// PID control: directly counteract acceleration in droid frame
+		//		// Negative sign because we want to oppose the acceleration
+		//		Fx_d = -(KP * accel_x + KI * error_x + KD * accel_dot_x);
+		//		Fy_d = -(KP * accel_y + KI * error_y + KD * accel_dot_y);
+		//
+		//		// Clamp forces to maximum
+		//		float F_total = sqrtf(Fx_d * Fx_d + Fy_d * Fy_d);
+		//		if (F_total > MAX_FORCE) {
+		//			float scale = MAX_FORCE / F_total;
+		//			Fx_d *= scale;
+		//			Fy_d *= scale;
+		//		}
+		//
+		//		// Assign motor values and set PWM
+		//		assignMotorValues(Fx_d, Fy_d, &m1, &m2, &m3, &m4);
+		//		TIM_SetPWM(m1, m2, m3, m4);
+		//
+		//		//		END OF IMU READ
+		//
+		//		HAL_Delay(5);
 		TIM_SetPWM(5.5, 5.5, 5.5, 5.5);  // Constant low throttle
-			    HAL_Delay(10);
-	}
+		HAL_Delay(10);
+//		END OF IMU READ
 
+	}
 	/* USER CODE END 3 */
 }
 
@@ -708,8 +710,7 @@ static void MX_SPI1_Init(void) {
 	hspi1.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
 	hspi1.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
 	hspi1.Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_00CYCLE;
-	hspi1.Init.MasterInterDataIdleness =
-	SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
+	hspi1.Init.MasterInterDataIdleness = SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
 	hspi1.Init.MasterReceiverAutoSusp = SPI_MASTER_RX_AUTOSUSP_DISABLE;
 	hspi1.Init.MasterKeepIOState = SPI_MASTER_KEEP_IO_STATE_DISABLE;
 	hspi1.Init.IOSwap = SPI_IO_SWAP_DISABLE;
@@ -766,8 +767,7 @@ static void MX_SPI3_Init(void) {
 	hspi3.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
 	hspi3.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
 	hspi3.Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_00CYCLE;
-	hspi3.Init.MasterInterDataIdleness =
-	SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
+	hspi3.Init.MasterInterDataIdleness = SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
 	hspi3.Init.MasterReceiverAutoSusp = SPI_MASTER_RX_AUTOSUSP_DISABLE;
 	hspi3.Init.MasterKeepIOState = SPI_MASTER_KEEP_IO_STATE_DISABLE;
 	hspi3.Init.IOSwap = SPI_IO_SWAP_DISABLE;
@@ -936,14 +936,11 @@ static void MX_GPIO_Init(void) {
 	__HAL_RCC_GPIOD_CLK_ENABLE();
 
 	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14 | GPIO_PIN_15 | GPIO_PIN_7,
-			GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC,
+	GPIO_PIN_14 | GPIO_PIN_15 | GPIO_PIN_6 | GPIO_PIN_7, GPIO_PIN_RESET);
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
-
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);
@@ -951,8 +948,8 @@ static void MX_GPIO_Init(void) {
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
 
-	/*Configure GPIO pins : PC14 PC15 */
-	GPIO_InitStruct.Pin = GPIO_PIN_14 | GPIO_PIN_15;
+	/*Configure GPIO pins : PC14 PC15 PC6 */
+	GPIO_InitStruct.Pin = GPIO_PIN_14 | GPIO_PIN_15 | GPIO_PIN_6;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -971,8 +968,8 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-	/*Configure GPIO pins : PC6 PC7 */
-	GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+	/*Configure GPIO pin : PC7 */
+	GPIO_InitStruct.Pin = GPIO_PIN_7;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
